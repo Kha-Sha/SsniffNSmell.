@@ -53,7 +53,7 @@ nav.sc {
 }
 .nlogo { display: flex; align-items: center; gap: 13px; text-decoration: none; }
 .nlogo img { width: 32px; height: 32px; filter: drop-shadow(0 0 8px rgba(201,146,43,.4)); }
-.nlogo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; color: var(--parch); }
+.nlogo-text { white-space: nowrap; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; color: var(--parch); }
 .nlogo-text em { font-style: normal; color: var(--gold); }
 .nlinks { display: flex; gap: 36px; list-style: none; }
 .nlinks a { font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--dust); text-decoration: none; transition: color .3s; position: relative; padding-bottom: 3px; }
@@ -207,7 +207,8 @@ footer { padding: 76px 64px 38px; background: var(--smoke); border-top: 1px soli
 /* ── RESPONSIVE ── */
 @media (max-width: 1100px) { .pgrid { grid-template-columns: repeat(3,1fr) !important; } }
 @media (max-width: 900px) {
-  nav { padding: 16px 22px; }
+  nav { padding: 16px 18px; }
+  .nlogo-text { font-size: 1.05rem; letter-spacing: .1em; }
   nav.sc { padding: 14px 22px; }
   .nlinks { display: none; }
   .nshop { font-size: .64rem; padding: 9px 16px; }
