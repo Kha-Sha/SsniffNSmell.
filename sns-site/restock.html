@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Back in Stock — Ssniff N Smell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;padding:60px 64px 80px;perspective:1200px;}
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr) !important;}}
+@media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr) !important;padding:50px 24px 70px;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cring"></div><div id="sp"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nlogo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="nlogo-text">Ssniff <em>N</em> Smell</span></a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="discovery.html">Discovery</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="restock.html" class="active">Restock</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="shop.html" class="nshop">Shop Now</a>
+</nav>
+
+<div class="page-hero rv">
+  <div class="page-hero-glow"></div>
+  <div class="ph-label">Back in Stock</div>
+  <h1 class="ph-title">They're <em>Back.</em><br>Don't miss them again.</h1>
+  <p class="ph-sub">These fragrances sold out and came back by popular demand. The ones customers couldn't stop asking for.</p>
+  <div class="page-hero-line"></div>
+</div>
+
+<div class="pgrid stg">
+
+  <div class="pc" data-a="vanilla" onclick="openDetail('bliss')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/BLISS-300x300.png" alt="Bliss"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Floral Gourmand</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Bliss</div><div class="pins">Inspired by <span>Fugazzi Sugardaddy</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+  </div>
+
+  <div class="pc" data-a="floral" onclick="openDetail('bloom-opelence')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/BLOOM-300x300.jpeg" alt="Bloom Opelence"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Fresh</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Bloom Opelence</div><div class="pins">Inspired by <span>Creed Royal Mayfair 2024</span></div><div class="pprc">₹99 — ₹1,600</div></div>
+  </div>
+
+  <div class="pc" data-a="leather" onclick="openDetail('burnt')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/burnt-300x300.jpeg" alt="Burnt"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Leather Smoky</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Burnt</div><div class="pins">Inspired by <span>Francesca Bianchi Under My Skin</span></div><div class="pprc">₹500 — ₹2,199</div></div>
+  </div>
+
+  <div class="pc" data-a="citrus" onclick="openDetail('citreen')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/citreen-300x300.jpg" alt="Citreen"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Citrus Woody</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Citreen</div><div class="pins">Inspired by <span>Xerjoff Nio</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+  </div>
+
+  <div class="pc" data-a="pink" onclick="openDetail('civet')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/civet-300x300.jpg" alt="Civet"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Gourmand</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Civet</div><div class="pins">Inspired by <span>Kilian Love Don't Be Shy</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+  </div>
+
+  <div class="pc" data-a="floral" onclick="openDetail('clivia')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/CLIVIA-1-300x300.jpeg" alt="Clivia"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Musky</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Clivia</div><div class="pins">Inspired by <span>Creed Queen of Silk</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+  </div>
+
+  <div class="pc" data-a="aqua" onclick="openDetail('core-energy')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/CORE-300x300.jpeg" alt="Core Energy"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Fresh</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Core Energy</div><div class="pins">Inspired by <span>Versace Eros Energy</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+  </div>
+
+  <div class="pc" data-a="pink" onclick="openDetail('drop-of-divine')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/DOD-300x300.jpeg" alt="Drop of Divine"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Amber</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Drop of Divine</div><div class="pins">Inspired by <span>Elie Saab Royale</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+  </div>
+
+  <div class="pc" data-a="dark" onclick="openDetail('florielle')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/florielle-300x300.jpeg" alt="Florielle"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Oriental Floral</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Florielle</div><div class="pins">Inspired by <span>Guerlain Angélique Noire</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+  </div>
+
+  <div class="pc" data-a="cold" onclick="openDetail('frost-face')">
+    <div class="pbadge badge-best">Bestseller</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/frost-face-300x300.jpeg" alt="Frost Face"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Chypre Floral</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Frost Face</div><div class="pins">Inspired by <span>Frederic Malle — The Moon</span></div><div class="pprc">₹149 — ₹2,199</div></div>
+  </div>
+
+  <div class="pc" data-a="musk" onclick="openDetail('obsidian-musk')">
+    <div class="pbadge badge-best">Bestseller</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/o-musk-300x300.jpeg" alt="Obsidian Musk"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · White Musk</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Obsidian Musk</div><div class="pins">Inspired by <span>Initio Musk Therapy</span></div><div class="pprc">₹110 — ₹1,899</div></div>
+  </div>
+
+  <div class="pc" data-a="floral" onclick="openDetail('stellar')">
+    <div class="pbadge badge-new">Back In Stock</div>
+    <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/WhatsApp-Image-2025-05-28-at-18.37.10-300x300.png" alt="Stellar"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Musky</span><button class="pbtn">Discover →</button></div></div>
+    <div class="pbar"></div>
+    <div class="pinf"><div class="pname">Stellar</div><div class="pins">Inspired by <span>Maison Crivelli Tubéreuse Astrale</span></div><div class="pprc">₹149 — ₹2,499</div></div>
+  </div>
+
+</div>
+
+<!-- Detail Panel -->
+<div class="dpanel" id="detailPanel">
+  <button class="dback" onclick="closeDetail()"><span>←</span> Back to Restock</button>
+  <div class="dlay">
+    <div class="diz"><div class="diw"><div class="dglow" id="d-glow"></div><img id="d-img" src="" alt=""></div></div>
+    <div>
+      <div class="dcat" id="d-cat"></div><h1 class="dnm" id="d-name"></h1>
+      <p class="dins" id="d-insp"></p><p class="ddesc" id="d-desc"></p>
+      <span class="szlbl">Select Size</span><div class="szs" id="d-sizes"></div>
+      <div class="dcta"><a id="d-buy" href="#" target="_blank" class="bbuy">Shop on Ssniff N Smell →</a><button class="bwl">♡</button></div>
+      <div class="dnotes"><h3 class="dntl">Scent Profile</h3><div class="ngrid" id="d-notes"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="svcbar rv">
+  <div class="svcitem"><div class="svcico">🔔</div><div><div class="svctl">Want to Know First?</div><p class="svcsb"><a href="https://wa.me/919561190267" target="_blank">Follow on WhatsApp →</a></p></div></div>
+  <div class="svcitem"><div class="svcico">📦</div><div><div class="svctl">Fast Delivery</div><p class="svcsb">Pan-India tracked shipping</p></div></div>
+  <div class="svcitem"><div class="svcico">🛍️</div><div><div class="svctl">Full Collection</div><p class="svcsb"><a href="shop.html">Browse all 41 fragrances →</a></p></div></div>
+</div>
+
+<footer>
+  <div class="ftop">
+    <div><div class="fbrand-logo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="fbrand-name">Ssniff <em>N</em> Smell</span></div><p class="fbrand-desc">Handcrafted niche fragrance dupes from India. Zero chemicals. Zero compromise.</p><a href="https://wa.me/919561190267" target="_blank" class="fwa">💬 WhatsApp</a></div>
+    <div><div class="fcoltit">Navigate</div><ul class="fls"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="discovery.html">Discovery Sets</a></li><li><a href="samples.html">2ml Samples</a></li><li><a href="restock.html">Restock</a></li></ul></div>
+    <div><div class="fcoltit">Customer</div><ul class="fls"><li><a href="https://ssniffnsmell.com/my-account/" target="_blank">My Account</a></li><li><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Order</a></li><li><a href="https://ssniffnsmell.com/wishlist/" target="_blank">Wishlist</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="fcoltit">Policies</div><ul class="fls"><li><a href="https://ssniffnsmell.com/privacy-policy/" target="_blank">Privacy</a></li><li><a href="https://ssniffnsmell.com/terms-and-conditions/" target="_blank">Terms</a></li><li><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Refunds</a></li><li><a href="https://ssniffnsmell.com/shipping/" target="_blank">Shipping</a></li></ul></div>
+  </div>
+  <div class="fbot"><p class="fcp">© 2026 Ssniff N Smell. All Rights Reserved.</p><p class="ftag">For noses that know.</p></div>
+</footer>
+
+<script src="products.js"></script><script src="shared.js"></script>
+</body>
+</html>

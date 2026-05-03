@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discovery Sets — Ssniff N Smell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.how-band{padding:70px 64px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,146,43,.1);}
+.how-step{background:var(--smoke);padding:44px 36px;position:relative;}
+.how-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:rgba(201,146,43,.07);position:absolute;top:16px;right:22px;line-height:1;}
+.how-ico{font-size:1.4rem;margin-bottom:16px;display:block;}
+.how-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;margin-bottom:10px;}
+.how-desc{font-size:.7rem;color:var(--dust);line-height:1.9;letter-spacing:.03em;}
+.sets-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:0 64px 80px;}
+.set-card{background:var(--smoke);overflow:hidden;cursor:none;transition:all .4s;}
+.set-card:hover{background:var(--ash);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 25px rgba(201,146,43,.08);}
+.set-img{aspect-ratio:1;overflow:hidden;background:var(--ash);}
+.set-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.45) brightness(.78);transition:all .6s;}
+.set-card:hover .set-img img{filter:saturate(.8) brightness(1);transform:scale(1.06);}
+.set-bar{height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s;}
+.set-card:hover .set-bar{transform:scaleX(1);}
+.set-body{padding:22px 20px 26px;}
+.set-num{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.set-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;margin-bottom:14px;transition:color .3s;}
+.set-card:hover .set-name{color:var(--goldl);}
+.set-included{margin-bottom:16px;}
+.set-included-label{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dust);margin-bottom:7px;display:block;}
+.set-item-tag{display:inline-block;font-size:.55rem;letter-spacing:.07em;color:var(--dust);border:1px solid rgba(201,146,43,.15);padding:3px 8px;margin:2px 2px 2px 0;transition:all .3s;}
+.set-card:hover .set-item-tag{border-color:rgba(201,146,43,.3);color:var(--parch);}
+.set-price{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold);margin-bottom:16px;}
+.set-shop-btn{display:block;padding:10px 16px;border:1px solid rgba(201,146,43,.3);color:var(--gold);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;text-align:center;text-decoration:none;transition:all .3s;font-family:'Montserrat',sans-serif;}
+.set-shop-btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+.disc-why{padding:70px 64px;border-top:1px solid rgba(201,146,43,.1);}
+.disc-why-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.disc-why-img{position:relative;height:480px;overflow:hidden;}
+.disc-why-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.5) brightness(.8);}
+.disc-why-img::after{content:'';position:absolute;inset:0;border:1px solid rgba(201,146,43,.15);pointer-events:none;}
+.disc-why-text p{font-size:.8rem;line-height:2.1;color:var(--dust);margin-top:26px;letter-spacing:.03em;}
+.disc-why-text p strong{color:var(--parch);font-weight:400;}
+@media(max-width:1000px){.sets-grid{grid-template-columns:repeat(2,1fr);padding:0 24px 60px;}.how-band{grid-template-columns:1fr;padding:50px 24px;}.disc-why{padding:60px 24px;}.disc-why-inner{grid-template-columns:1fr;gap:48px;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cring"></div><div id="sp"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nlogo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="nlogo-text">Ssniff <em>N</em> Smell</span></a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="discovery.html" class="active">Discovery</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="shop.html" class="nshop">Shop Now</a>
+</nav>
+
+<div class="page-hero rv">
+  <div class="page-hero-glow"></div>
+  <div class="ph-label">Try Before You Commit</div>
+  <h1 class="ph-title">Five Vials.<br>One <em>Discovery.</em></h1>
+  <p class="ph-sub">Five fragrances, each curated around a theme. Wear them across different days and moods — the one that keeps pulling you back is yours.</p>
+  <div class="ph-num">5</div>
+  <div class="page-hero-line"></div>
+</div>
+
+<div class="how-band stg rv">
+  <div class="how-step"><div class="how-num">1</div><span class="how-ico">🎁</span><div class="how-title">Choose Your Set</div><p class="how-desc">Pick any of our 5 curated discovery sets. Each contains 5 unique 2ml vials themed around a fragrance family or mood.</p></div>
+  <div class="how-step"><div class="how-num">2</div><span class="how-ico">🌙</span><div class="how-title">Wear & Explore</div><p class="how-desc">Try each vial on a different day. Let them live on your skin through morning, afternoon, and evening before deciding.</p></div>
+  <div class="how-step"><div class="how-num">3</div><span class="how-ico">✦</span><div class="how-title">Find Your Signature</div><p class="how-desc">The one that keeps calling you back — order it in 10ml or 50ml. Your discovery set purchase counts toward your first full bottle.</p></div>
+</div>
+
+<div class="sets-grid stg">
+  <div class="set-card rv">
+    <div class="set-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/1-2-1-300x300.webp" alt="Discovery Set 1"></div>
+    <div class="set-bar"></div>
+    <div class="set-body">
+      <div class="set-num">Discovery Set 01</div>
+      <div class="set-name">The Classics Edit</div>
+      <div class="set-included">
+        <span class="set-included-label">Includes</span>
+        <span class="set-item-tag">Phoenix</span><span class="set-item-tag">Green Mint</span><span class="set-item-tag">Isle</span><span class="set-item-tag">Obsidian Musk</span><span class="set-item-tag">Royal Shave</span>
+      </div>
+      <div class="set-price">₹1,700</div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-1-bliss-citreen-isle-greek-lord-tan/" target="_blank" class="set-shop-btn">Shop This Set →</a>
+    </div>
+  </div>
+  <div class="set-card rv" style="transition-delay:.07s">
+    <div class="set-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/2-1-1-300x300.webp" alt="Discovery Set 2"></div>
+    <div class="set-bar"></div>
+    <div class="set-body">
+      <div class="set-num">Discovery Set 02</div>
+      <div class="set-name">The Floral Edit</div>
+      <div class="set-included">
+        <span class="set-included-label">Includes</span>
+        <span class="set-item-tag">Bright Affair</span><span class="set-item-tag">Clivia</span><span class="set-item-tag">Floriele</span><span class="set-item-tag">Frost Face</span><span class="set-item-tag">Tan</span>
+      </div>
+      <div class="set-price">₹1,700</div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-2-bright-affair-clivia-floriele-frost-face-tan/" target="_blank" class="set-shop-btn">Shop This Set →</a>
+    </div>
+  </div>
+  <div class="set-card rv" style="transition-delay:.14s">
+    <div class="set-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/3-1-1-300x300.webp" alt="Discovery Set 3"></div>
+    <div class="set-bar"></div>
+    <div class="set-body">
+      <div class="set-num">Discovery Set 03</div>
+      <div class="set-name">The Oriental Edit</div>
+      <div class="set-included">
+        <span class="set-included-label">Includes</span>
+        <span class="set-item-tag">Garden of Dream</span><span class="set-item-tag">Sultan</span><span class="set-item-tag">Vanilla High</span><span class="set-item-tag">Velour</span><span class="set-item-tag">Kimam</span>
+      </div>
+      <div class="set-price">₹1,700</div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-3-garden-of-dream-sultan-vanilla-high-velour-kimam/" target="_blank" class="set-shop-btn">Shop This Set →</a>
+    </div>
+  </div>
+  <div class="set-card rv" style="transition-delay:.21s">
+    <div class="set-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/4-1-1-300x300.webp" alt="Discovery Set 4"></div>
+    <div class="set-bar"></div>
+    <div class="set-body">
+      <div class="set-num">Discovery Set 04</div>
+      <div class="set-name">The Dark Edit</div>
+      <div class="set-included">
+        <span class="set-included-label">Includes</span>
+        <span class="set-item-tag">Phoenix</span><span class="set-item-tag">Velour</span><span class="set-item-tag">Royal Shave</span><span class="set-item-tag">Kimam</span><span class="set-item-tag">Tros</span>
+      </div>
+      <div class="set-price">₹1,700</div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-4-canabis-blue-velour-look-walk-tan-sultan/" target="_blank" class="set-shop-btn">Shop This Set →</a>
+    </div>
+  </div>
+  <div class="set-card rv" style="transition-delay:.28s">
+    <div class="set-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/5-1-1-300x300.webp" alt="Discovery Set 5"></div>
+    <div class="set-bar"></div>
+    <div class="set-body">
+      <div class="set-num">Discovery Set 05</div>
+      <div class="set-name">The Fresh Edit</div>
+      <div class="set-included">
+        <span class="set-included-label">Includes</span>
+        <span class="set-item-tag">Obsidian Musk</span><span class="set-item-tag">Summer Tide</span><span class="set-item-tag">Isle</span><span class="set-item-tag">Core Energy</span><span class="set-item-tag">Barber</span>
+      </div>
+      <div class="set-price">₹1,700</div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-5-isle-obsidian-musk-hades-tan-garden-of-dream/" target="_blank" class="set-shop-btn">Shop This Set →</a>
+    </div>
+  </div>
+</div>
+
+<div class="disc-why">
+  <div class="disc-why-inner">
+    <div class="disc-why-img rvl"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/Gemini_Generated_Image_l779snl779snl779-1.png" alt="Discovery"></div>
+    <div class="disc-why-text rvr">
+      <div class="slbl">Why Discovery Sets</div>
+      <h2 class="stit">Fragrance is <em>personal.</em><br>So is the journey.</h2>
+      <p>A fragrance doesn't reveal itself in the first spray. It opens over hours — the top notes give way to the heart, the heart gives way to the base. The version that stays on your skin at midnight is the one that matters.</p>
+      <p>That's why we built the Discovery Set. <strong>Five vials. Enough to know.</strong> Wear each one on a different day. Wear them in different temperatures. Wear them to different places. The one that makes you reach for it again — that's your fragrance.</p>
+      <p>And when you find it, your discovery set counts toward your first full bottle. <strong>The journey pays for itself.</strong></p>
+      <a href="shop.html" class="btn-outline" style="margin-top:8px">Browse Full Collection →</a>
+    </div>
+  </div>
+</div>
+
+<div class="svcbar rv">
+  <div class="svcitem"><div class="svcico">🎧</div><div><div class="svctl">Fragrance Advice</div><p class="svcsb"><a href="https://wa.me/919561190267" target="_blank">Chat with us →</a></p></div></div>
+  <div class="svcitem"><div class="svcico">📦</div><div><div class="svctl">Pan-India Delivery</div><p class="svcsb">Fast, tracked, reliable</p></div></div>
+  <div class="svcitem"><div class="svcico">💧</div><div><div class="svctl">Also Try 2ml Samples</div><p class="svcsb"><a href="samples.html">Individual samples →</a></p></div></div>
+</div>
+
+<footer>
+  <div class="ftop">
+    <div><div class="fbrand-logo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="fbrand-name">Ssniff <em>N</em> Smell</span></div><p class="fbrand-desc">Handcrafted niche fragrance dupes from India. Zero chemicals. Zero compromise.</p><a href="https://wa.me/919561190267" target="_blank" class="fwa">💬 WhatsApp</a></div>
+    <div><div class="fcoltit">Navigate</div><ul class="fls"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="discovery.html">Discovery Sets</a></li><li><a href="samples.html">2ml Samples</a></li><li><a href="restock.html">Restock</a></li></ul></div>
+    <div><div class="fcoltit">Customer</div><ul class="fls"><li><a href="https://ssniffnsmell.com/my-account/" target="_blank">My Account</a></li><li><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Order</a></li><li><a href="https://ssniffnsmell.com/wishlist/" target="_blank">Wishlist</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="fcoltit">Policies</div><ul class="fls"><li><a href="https://ssniffnsmell.com/privacy-policy/" target="_blank">Privacy Policy</a></li><li><a href="https://ssniffnsmell.com/terms-and-conditions/" target="_blank">Terms</a></li><li><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Refunds</a></li><li><a href="https://ssniffnsmell.com/shipping/" target="_blank">Shipping</a></li></ul></div>
+  </div>
+  <div class="fbot"><p class="fcp">© 2026 Ssniff N Smell. All Rights Reserved.</p><p class="ftag">For noses that know.</p></div>
+</footer>
+
+
+<!-- Detail Panel -->
+<div class="dpanel" id="detailPanel">
+  <button class="dback" onclick="closeDetail()"><span>←</span> Back</button>
+  <div class="dlay">
+    <div class="diz"><div class="diw"><div class="dglow" id="d-glow"></div><img id="d-img" src="" alt=""></div></div>
+    <div>
+      <div class="dcat" id="d-cat"></div><h1 class="dnm" id="d-name"></h1>
+      <p class="dins" id="d-insp"></p><p class="ddesc" id="d-desc"></p>
+      <span class="szlbl">Select Size</span><div class="szs" id="d-sizes"></div>
+      <div class="dcta"><a id="d-buy" href="#" target="_blank" class="bbuy">Shop on Ssniff N Smell →</a><button class="bwl">&#9825;</button></div>
+      <div class="dnotes"><h3 class="dntl">Scent Profile</h3><div class="ngrid" id="d-notes"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="products.js"></script><script src="shared.js"></script>
+</body>
+</html>
