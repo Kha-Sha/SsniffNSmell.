@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Ssniff N Smell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;padding:90px 64px;}
+.about-img{position:relative;overflow:hidden;}
+.about-img img{width:100%;height:560px;object-fit:cover;filter:saturate(.55) brightness(.85);transition:filter .6s;}
+.about-img:hover img{filter:saturate(.75) brightness(.95);}
+.about-img::after{content:'';position:absolute;inset:0;border:1px solid rgba(201,146,43,.15);pointer-events:none;}
+.about-img-label{position:absolute;bottom:28px;left:28px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--parch);background:rgba(8,7,10,.72);padding:10px 18px;backdrop-filter:blur(8px);}
+.about-text p{font-size:.82rem;line-height:2.1;color:var(--dust);margin-bottom:22px;letter-spacing:.03em;}
+.about-text p strong{color:var(--parch);font-weight:400;}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,146,43,.1);margin:0 64px 80px;}
+.why-card{background:var(--smoke);padding:50px 40px;transition:background .4s;}
+.why-card:hover{background:var(--ash);}
+.why-icon{font-size:2rem;margin-bottom:20px;display:block;}
+.why-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;margin-bottom:14px;}
+.why-desc{font-size:.72rem;line-height:1.9;color:var(--dust);letter-spacing:.03em;}
+.mission-band{background:var(--smoke);padding:80px 64px;border-top:1px solid rgba(201,146,43,.1);border-bottom:1px solid rgba(201,146,43,.1);text-align:center;}
+.mission-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2.6rem);font-weight:300;font-style:italic;color:var(--parch);max-width:800px;margin:0 auto 32px;line-height:1.4;letter-spacing:.01em;}
+.mission-quote em{color:var(--gold);}
+.cta-section{padding:80px 64px;display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:48px;padding:60px 24px;}.why-grid{grid-template-columns:1fr;margin:0 24px 60px;}.mission-band,.cta-section{padding:60px 24px;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cring"></div><div id="sp"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nlogo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="nlogo-text">Ssniff <em>N</em> Smell</span></a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="discovery.html">Discovery</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="about.html" class="active">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="shop.html" class="nshop">Shop Now</a>
+</nav>
+
+<div class="page-hero rv">
+  <div class="page-hero-glow"></div>
+  <div class="ph-label">Who We Are</div>
+  <h1 class="ph-title">Born from <em>Passion.</em><br>Built for India.</h1>
+  <p class="ph-sub">The story of a house that believed world-class fragrance should never be out of reach.</p>
+  <div class="ph-num">SNS</div>
+  <div class="page-hero-line"></div>
+</div>
+
+<div class="about-grid">
+  <div class="about-img rvl">
+    <img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/Gemini_Generated_Image_l779snl779snl779-1.png" alt="Ssniff N Smell Story">
+    <div class="about-img-label">Our Story</div>
+  </div>
+  <div class="about-text rvr">
+    <div class="slbl">The Beginning</div>
+    <h2 class="stit">Your gateway to <em>exquisite</em> fragrances</h2>
+    <p style="margin-top:26px">Welcome to Ssniff N Smell — where we believe that a fragrance is more than just a scent. <strong>It's a journey, a memory, and an experience.</strong></p>
+    <p>We proudly present a curated range of handcrafted niche fragrance dupes, carefully created to transport you across moments, emotions, and destinations with every wear.</p>
+    <p>Our collection is designed to suit <strong>every personality and every occasion.</strong> From timeless designer inspirations to rare niche creations, each fragrance is chosen for its uniqueness and quality. Our premium oils are crafted with high-grade ingredients to ensure <strong>long-lasting, captivating aromas</strong> that stay with you throughout the day.</p>
+    <p>We are based in Nagpur and Kolkata — and we ship across all of India, because great fragrance belongs everywhere.</p>
+  </div>
+</div>
+
+<div class="mission-band rv">
+  <p class="mission-quote">"Fragrance is the only art that can take you back in time through your senses. At Ssniff N Smell, we understand the <em>emotional connection</em> between scent and memory."</p>
+  <div class="slbl" style="justify-content:center"><span style="width:26px;height:1px;background:var(--gold);display:block"></span>Our Mission</div>
+</div>
+
+<div class="why-grid stg rv">
+  <div class="why-card">
+    <span class="why-icon">🌿</span>
+    <div class="why-title">Wide Variety</div>
+    <p class="why-desc">Renowned niche inspirations and exclusive handcrafted blends in one place. 41 fragrances across Men, Women, and Unisex — with more arriving every season.</p>
+  </div>
+  <div class="why-card">
+    <span class="why-icon">💎</span>
+    <div class="why-title">Premium Quality</div>
+    <p class="why-desc">Every product meets our strict quality standards. Paraben-free, chemical-conscious, and crafted with high-grade raw materials. No shortcuts. No compromise.</p>
+  </div>
+  <div class="why-card">
+    <span class="why-icon">✦</span>
+    <div class="why-title">Expert Guidance</div>
+    <p class="why-desc">Our fragrance team helps you discover scents that match your personality and lifestyle. Not sure where to start? Try our Discovery Sets — 5 curated vials for ₹1,700.</p>
+  </div>
+</div>
+
+<div class="cta-section rv">
+  <a href="shop.html" class="btn-gold">Explore the Collection</a>
+  <a href="discovery.html" class="btn-outline">Try a Discovery Set</a>
+</div>
+
+<div class="svcbar rv">
+  <div class="svcitem"><div class="svcico">🎧</div><div><div class="svctl">Dedicated Support</div><p class="svcsb"><a href="https://wa.me/919561190267" target="_blank">Chat on WhatsApp →</a></p></div></div>
+  <div class="svcitem"><div class="svcico">📍</div><div><div class="svctl">Our Locations</div><p class="svcsb">Nagpur, Maharashtra &amp; Kolkata, West Bengal</p></div></div>
+  <div class="svcitem"><div class="svcico">📧</div><div><div class="svctl">Email Us</div><p class="svcsb"><a href="mailto:info@ssniffnsmell.com">info@ssniffnsmell.com</a></p></div></div>
+</div>
+
+<footer>
+  <div class="ftop">
+    <div><div class="fbrand-logo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="fbrand-name">Ssniff <em>N</em> Smell</span></div><p class="fbrand-desc">Handcrafted niche fragrance dupes from India. Zero chemicals. Zero compromise. For noses that know.</p><a href="https://wa.me/919561190267" target="_blank" class="fwa">💬 WhatsApp</a></div>
+    <div><div class="fcoltit">Navigate</div><ul class="fls"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="discovery.html">Discovery Sets</a></li><li><a href="samples.html">2ml Samples</a></li><li><a href="restock.html">Restock</a></li></ul></div>
+    <div><div class="fcoltit">Customer</div><ul class="fls"><li><a href="https://ssniffnsmell.com/my-account/" target="_blank">My Account</a></li><li><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Order</a></li><li><a href="https://ssniffnsmell.com/wishlist/" target="_blank">Wishlist</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="fcoltit">Policies</div><ul class="fls"><li><a href="https://ssniffnsmell.com/privacy-policy/" target="_blank">Privacy Policy</a></li><li><a href="https://ssniffnsmell.com/terms-and-conditions/" target="_blank">Terms</a></li><li><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Refunds</a></li><li><a href="https://ssniffnsmell.com/shipping/" target="_blank">Shipping</a></li></ul></div>
+  </div>
+  <div class="fbot"><p class="fcp">© 2026 Ssniff N Smell. All Rights Reserved.</p><p class="ftag">For noses that know.</p></div>
+</footer>
+
+
+<!-- Detail Panel -->
+<div class="dpanel" id="detailPanel">
+  <button class="dback" onclick="closeDetail()"><span>←</span> Back</button>
+  <div class="dlay">
+    <div class="diz"><div class="diw"><div class="dglow" id="d-glow"></div><img id="d-img" src="" alt=""></div></div>
+    <div>
+      <div class="dcat" id="d-cat"></div><h1 class="dnm" id="d-name"></h1>
+      <p class="dins" id="d-insp"></p><p class="ddesc" id="d-desc"></p>
+      <span class="szlbl">Select Size</span><div class="szs" id="d-sizes"></div>
+      <div class="dcta"><a id="d-buy" href="#" target="_blank" class="bbuy">Shop on Ssniff N Smell →</a><button class="bwl">&#9825;</button></div>
+      <div class="dnotes"><h3 class="dntl">Scent Profile</h3><div class="ngrid" id="d-notes"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="products.js"></script><script src="shared.js"></script>
+</body>
+</html>

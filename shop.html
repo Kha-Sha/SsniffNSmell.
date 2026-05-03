@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Ssniff N Smell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070a;--smoke:#111018;--ash:#1c1a24;--parch:#ede5d4;--dust:#7a7068;--gold:#c9922b;--goldl:#e8c46a;--goldp:#f0d890;--border:rgba(201,146,43,.1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--parch);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;}
+#cring{position:fixed;width:34px;height:34px;border:1px solid rgba(201,146,43,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .15s ease;}
+#cring.h{width:54px;height:54px;border-color:var(--gold);background:rgba(201,146,43,.04);}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:900;opacity:.18;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+#sp{position:fixed;top:0;left:0;height:1px;background:linear-gradient(90deg,var(--gold),var(--goldl));z-index:300;transform-origin:left;transform:scaleX(0);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;transition:all .5s;background:rgba(8,7,10,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nlogo{display:flex;align-items:center;gap:13px;text-decoration:none;}
+.nlogo img{width:32px;height:32px;filter:drop-shadow(0 0 8px rgba(201,146,43,.4));}
+.nlogo span{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--parch);}
+.nlogo em{font-style:normal;color:var(--gold);}
+.nlinks{display:flex;gap:40px;list-style:none;}
+.nlinks a{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dust);text-decoration:none;transition:color .3s;}
+.nlinks a:hover,.nlinks a.active{color:var(--parch);}
+.nlinks a.active{border-bottom:1px solid var(--gold);padding-bottom:2px;}
+.ncart{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:8px;border:1px solid var(--border);padding:8px 18px;transition:all .3s;cursor:none;}
+.ncart:hover{border-color:var(--gold);background:rgba(201,146,43,.06);}
+
+/* SHOP HERO */
+.shop-hero{padding:130px 60px 70px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.shop-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 50%,rgba(201,146,43,.06),transparent);pointer-events:none;}
+.shop-hero-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.sh-label{font-size:.68rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:14px;}
+.sh-label::before{content:'';width:26px;height:1px;background:var(--gold);}
+.sh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,5rem);font-weight:300;line-height:.95;letter-spacing:-.01em;margin-bottom:24px;}
+.sh-title em{font-style:italic;color:var(--gold);}
+.sh-sub{font-size:.75rem;color:var(--dust);letter-spacing:.06em;max-width:500px;line-height:1.8;}
+.sh-count{position:absolute;right:60px;bottom:60px;font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:rgba(201,146,43,.08);line-height:1;letter-spacing:-.02em;}
+
+/* CONTROLS BAR */
+.controls{position:sticky;top:70px;z-index:100;background:rgba(8,7,10,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:18px 60px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:220px;max-width:340px;}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;}
+#searchInput{width:100%;background:var(--smoke);border:1px solid var(--border);color:var(--parch);font-family:'Montserrat',sans-serif;font-size:.65rem;letter-spacing:.08em;padding:10px 14px 10px 40px;outline:none;transition:border .3s;cursor:text;}
+#searchInput:focus{border-color:rgba(201,146,43,.35);}
+#searchInput::placeholder{color:var(--dust);}
+.filters{display:flex;gap:8px;flex-wrap:wrap;}
+.fBtn{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--border);background:transparent;color:var(--dust);cursor:none;transition:all .3s;font-family:'Montserrat',sans-serif;}
+.fBtn:hover{border-color:rgba(201,146,43,.35);color:var(--parch);}
+.fBtn.on{border-color:var(--gold);color:var(--gold);background:rgba(201,146,43,.07);}
+.sort-wrap{margin-left:auto;}
+.sort-wrap select{background:var(--smoke);border:1px solid var(--border);color:var(--dust);font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.08em;padding:8px 14px;outline:none;cursor:pointer;appearance:none;transition:border .3s;}
+.sort-wrap select:focus{border-color:rgba(201,146,43,.35);}
+.results-count{font-size:.7rem;letter-spacing:.12em;color:var(--dust);white-space:nowrap;}
+#countNum{color:var(--gold);}
+
+/* DISCOVERY SECTION */
+.disc-section{padding:60px 60px 50px;border-bottom:1px solid var(--border);}
+.disc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:40px;}
+.sec-lbl{font-size:.55rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;}
+.sec-lbl::before{content:'';width:24px;height:1px;background:var(--gold);}
+.sec-tit{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;letter-spacing:-.01em;margin-top:10px;}
+.sec-tit em{font-style:italic;color:var(--gold);}
+.disc-all{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap .3s;}
+.disc-all:hover{gap:16px;}
+.disc-all::after{content:'→';}
+.disc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;}
+.dcard{background:var(--smoke);position:relative;cursor:none;overflow:hidden;transition:all .4s;}
+.dcard:hover{background:var(--ash);}
+.dcard-img{aspect-ratio:1;overflow:hidden;background:var(--ash);}
+.dcard-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.45) brightness(.8);transition:all .6s;}
+.dcard:hover .dcard-img img{filter:saturate(.75) brightness(.95);transform:scale(1.06);}
+.dcard-info{padding:18px 18px 22px;}
+.dcard-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;margin-bottom:6px;transition:color .3s;}
+.dcard:hover .dcard-name{color:var(--goldl);}
+.dcard-list{font-size:.53rem;letter-spacing:.08em;color:var(--dust);line-height:1.7;margin-bottom:12px;}
+.dcard-price{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold);}
+.dcard-bar{height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s;}
+.dcard:hover .dcard-bar{transform:scaleX(1);}
+.dcard-btn{display:block;margin:14px 18px 18px;padding:9px 14px;border:1px solid rgba(201,146,43,.25);color:var(--gold);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;text-align:center;text-decoration:none;transition:all .3s;font-family:'Montserrat',sans-serif;}
+.dcard-btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+
+/* MAIN CATALOG */
+.catalog{padding:60px 60px 80px;}
+.catalog-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:50px;}
+
+/* PRODUCT GRID */
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;perspective:1200px;}
+.no-results{grid-column:1/-1;text-align:center;padding:100px 0;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--dust);}
+.no-results span{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,146,43,.4);margin-top:12px;font-family:'Montserrat',sans-serif;font-weight:300;}
+
+/* PRODUCT CARD */
+.pc{position:relative;background:var(--smoke);overflow:hidden;cursor:none;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.25,.46,.45,.94),box-shadow .45s;animation:cardIn .5s ease both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pc.hidden{display:none;}
+.pc:hover{box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 30px rgba(201,146,43,.09);z-index:10;}
+/* accent color per card */
+.pc[data-a="cold"]{--ac:#8fb8d4;}
+.pc[data-a="fire"]{--ac:#e87a3a;}
+.pc[data-a="earth"]{--ac:#a07850;}
+.pc[data-a="citrus"]{--ac:#b8d040;}
+.pc[data-a="floral"]{--ac:#d4789e;}
+.pc[data-a="spice"]{--ac:#c04040;}
+.pc[data-a="regal"]{--ac:#7060d0;}
+.pc[data-a="musk"]{--ac:#ddd8c8;}
+.pc[data-a="gold"]{--ac:var(--gold);}
+.pc[data-a="green"]{--ac:#60a860;}
+.pc[data-a="aqua"]{--ac:#50b8d8;}
+.pc[data-a="smoke"]{--ac:#909098;}
+.pc[data-a="leather"]{--ac:#8b5e3c;}
+.pc[data-a="pink"]{--ac:#e090b0;}
+.pc[data-a="vanilla"]{--ac:#d4b870;}
+.pc[data-a="fresh"]{--ac:#90c8a0;}
+.pc[data-a="dark"]{--ac:#6040a0;}
+.pimg{position:relative;overflow:hidden;background:var(--ash);aspect-ratio:3/4;}
+.pimg img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .5s;filter:saturate(.42) brightness(.78);}
+.pc:hover .pimg img{transform:scale(1.08);filter:saturate(.85) brightness(1.02);}
+.pglow{position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse 65% 80% at 50% 115%,color-mix(in srgb,var(--ac,var(--gold)) 25%,transparent),transparent 72%);opacity:0;transition:opacity .5s;}
+.pc:hover .pglow{opacity:1;}
+.pov{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(8,7,10,.97) 0%,rgba(8,7,10,.3) 55%,transparent 100%);opacity:0;transition:opacity .42s;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;gap:10px;}
+.pc:hover .pov{opacity:1;}
+/* badge */
+.pbadge{position:absolute;top:14px;right:14px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;z-index:3;font-family:'Montserrat',sans-serif;}
+.pbadge.coming{background:rgba(8,7,10,.85);color:var(--gold);border:1px solid rgba(201,146,43,.4);backdrop-filter:blur(6px);}
+.pbadge.new{background:rgba(201,146,43,.18);color:var(--goldl);border:1px solid rgba(201,146,43,.4);}
+.ptag{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ac,var(--gold));padding:4px 9px;border:1px solid rgba(255,255,255,.12);align-self:flex-start;}
+.pbtn{display:block;padding:9px 14px;border:1px solid var(--ac,var(--gold));color:var(--ac,var(--gold));font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;text-align:center;background:none;width:100%;font-family:'Montserrat',sans-serif;cursor:none;transition:all .3s;}
+.pbtn:hover{background:var(--ac,var(--gold));color:var(--ink);}
+.pbar{height:2px;background:linear-gradient(90deg,var(--ac,var(--gold)),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.25,.46,.45,.94);}
+.pc:hover .pbar{transform:scaleX(1);}
+.pinf{padding:15px 15px 19px;border-top:1px solid rgba(255,255,255,.04);}
+.pname{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;letter-spacing:.04em;margin-bottom:4px;transition:color .3s;line-height:1.2;}
+.pc:hover .pname{color:var(--goldl);}
+.pins{font-size:.65rem;letter-spacing:.08em;color:var(--dust);margin-bottom:10px;line-height:1.6;}
+.pins span{color:rgba(201,146,43,.65);}
+.pprc{font-family:'Cormorant Garamond',serif;font-size:.94rem;color:var(--gold);letter-spacing:.04em;}
+
+/* DETAIL PANEL */
+.dpanel{display:none;position:fixed;inset:0;background:var(--ink);z-index:500;overflow-y:auto;padding:110px 60px 80px;}
+.dpanel.open{display:block;animation:panIn .45s cubic-bezier(.25,.46,.45,.94);}
+@keyframes panIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.dback{display:inline-flex;align-items:center;gap:11px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dust);background:none;border:none;font-family:'Montserrat',sans-serif;cursor:none;transition:color .3s;margin-bottom:55px;}
+.dback:hover{color:var(--parch);}
+.dback span{transition:transform .3s;display:inline-block;}
+.dback:hover span{transform:translateX(-5px);}
+.dlay{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:start;}
+.diz{position:sticky;top:90px;}
+.diw{position:relative;overflow:hidden;background:var(--ash);}
+.diw img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:saturate(.65) contrast(1.05);transition:transform .6s;}
+.diw:hover img{transform:scale(1.04);}
+.diw::after{content:'';position:absolute;inset:0;border:1px solid rgba(201,146,43,.12);pointer-events:none;}
+.dglow{position:absolute;bottom:-30%;left:50%;transform:translateX(-50%);width:85%;height:50%;border-radius:50%;filter:blur(32px);pointer-events:none;z-index:0;}
+.dcat{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.dnm{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:.97;letter-spacing:-.01em;margin-bottom:9px;}
+.dins{font-size:.66rem;color:var(--dust);letter-spacing:.1em;margin-bottom:30px;padding-bottom:30px;border-bottom:1px solid var(--border);}
+.dins strong{color:rgba(201,146,43,.8);font-weight:400;}
+.ddesc{font-size:.78rem;line-height:2.05;color:var(--dust);letter-spacing:.03em;margin-bottom:38px;}
+.szlbl{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dust);margin-bottom:12px;display:block;}
+.szs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:36px;}
+.sz{padding:9px 18px;border:1px solid var(--border);background:transparent;color:var(--parch);font-family:'Montserrat',sans-serif;font-size:.72rem;letter-spacing:.07em;cursor:none;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.sz .szp{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--gold);}
+.sz.on,.sz:hover{border-color:var(--gold);background:rgba(201,146,43,.07);}
+.dcta{display:flex;gap:11px;}
+.bbuy{flex:1;padding:14px 24px;background:var(--gold);border:none;color:var(--ink);font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:none;transition:all .3s;text-decoration:none;display:flex;align-items:center;justify-content:center;}
+.bbuy:hover{background:var(--goldl);}
+.bwl{padding:14px 16px;border:1px solid var(--border);background:transparent;color:var(--gold);cursor:none;font-size:.95rem;transition:all .3s;}
+.bwl:hover{border-color:var(--gold);background:rgba(201,146,43,.06);}
+.dnotes{margin-top:50px;padding-top:40px;border-top:1px solid var(--border);}
+.dntl{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;margin-bottom:22px;}
+.ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,146,43,.06);}
+.ni{background:var(--smoke);padding:18px 16px;text-align:center;}
+.nit{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;}
+.niv{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:var(--dust);line-height:1.6;}
+
+/* FOOTER */
+footer{padding:70px 60px 36px;background:var(--smoke);border-top:1px solid var(--border);}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:56px;}
+.fbl{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.fbl img{width:38px;height:38px;filter:drop-shadow(0 0 8px rgba(201,146,43,.3));}
+.fbn{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--parch);}
+.fbn em{font-style:normal;color:var(--gold);}
+.fbp{font-size:.68rem;line-height:1.95;color:var(--dust);max-width:260px;letter-spacing:.03em;margin-bottom:20px;}
+.fwa{display:inline-flex;align-items:center;gap:9px;padding:9px 18px;border:1px solid var(--border);color:var(--gold);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:all .3s;}
+.fwa:hover{background:rgba(201,146,43,.07);border-color:var(--gold);}
+.fct{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.fls{list-style:none;}
+.fls li{margin-bottom:10px;}
+.fls a{font-size:.68rem;color:var(--dust);text-decoration:none;letter-spacing:.04em;transition:color .3s;display:inline-flex;align-items:center;gap:7px;}
+.fls a:hover{color:var(--parch);}
+.fls a::before{content:'';width:0;height:1px;background:var(--gold);transition:width .3s;flex-shrink:0;}
+.fls a:hover::before{width:11px;}
+.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid rgba(201,146,43,.06);}
+.fcp{font-size:.68rem;color:rgba(122,112,104,.4);letter-spacing:.1em;}
+.ftag{font-family:'Cormorant Garamond',serif;font-size:.84rem;font-style:italic;color:rgba(201,146,43,.3);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.rv.vis{opacity:1;transform:none;}
+
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){
+  nav{padding:16px 22px;}
+  .nlinks{display:none;}
+  .nshop{font-size:.62rem;padding:8px 14px;}
+  .shop-hero{padding:110px 24px 55px;}
+  .sh-count{display:none;}
+  .sh-title{font-size:clamp(2.4rem,9vw,3.5rem);line-height:1.0;}
+  .controls{padding:12px 22px;gap:10px;flex-wrap:wrap;}
+  .search-wrap{max-width:100%;min-width:100%;}
+  .filters{width:100%;justify-content:flex-start;}
+  .fBtn{padding:7px 12px;font-size:.6rem;}
+  .sort-wrap{margin-left:0;}
+  .results-count{display:none;}
+  .disc-section,.catalog{padding:50px 22px 60px;}
+  .disc-grid{grid-template-columns:1fr 1fr;}
+  .pgrid{grid-template-columns:1fr 1fr;}
+  .pname{font-size:1rem;}
+  .pins{font-size:.6rem;}
+  .pprc{font-size:.9rem;}
+  .pinf{padding:12px 12px 16px;}
+  .svcbar{grid-template-columns:1fr;}
+  .ftop{grid-template-columns:1fr 1fr;gap:36px;}
+  footer{padding:55px 22px 28px;}
+  .dlay{grid-template-columns:1fr;gap:36px;}
+  .dpanel{padding:80px 20px 60px;}
+  .diz{position:static;}
+  .ngrid{grid-template-columns:1fr 1fr;}
+  .dcta{flex-direction:column;}
+  .bbuy{padding:15px;}
+  .szs{gap:8px;}
+}
+@media(max-width:480px){
+  .disc-grid{grid-template-columns:1fr;}
+  .pgrid{grid-template-columns:1fr;}
+  .ftop{grid-template-columns:1fr;}
+  .ngrid{grid-template-columns:1fr;}
+  .filters{gap:6px;}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cring"></div>
+<div id="sp"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nlogo">
+    <img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'">
+    <span>Ssniff <em>N</em> Smell</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="discovery.html">Discovery</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="https://ssniffnsmell.com/cart/" target="_blank" class="ncart">🛒 Cart</a>
+</nav>
+
+<!-- SHOP HERO -->
+<div class="shop-hero rv">
+  <div class="shop-hero-bg"></div>
+  <div class="sh-label">The Full Collection</div>
+  <h1 class="sh-title">Every <em>Scent.</em><br>One Place.</h1>
+  <p class="sh-sub">41 handcrafted niche fragrance dupes — from Creed to Roja, Malle to Kilian. Your nose deserves all of it.</p>
+  <div class="sh-count">41</div>
+  <div class="shop-hero-line"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search fragrances or houses...">
+  </div>
+  <div class="filters">
+    <button class="fBtn on" data-filter="all">All</button>
+    <button class="fBtn" data-filter="men">Men</button>
+    <button class="fBtn" data-filter="women">Women</button>
+    <button class="fBtn" data-filter="unisex">Unisex</button>
+  </div>
+  <div class="sort-wrap">
+    <select id="sortSel">
+      <option value="default">Default Order</option>
+      <option value="name-asc">Name A–Z</option>
+      <option value="name-desc">Name Z–A</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+    </select>
+  </div>
+  <span class="results-count"><span id="countNum">41</span> fragrances</span>
+</div>
+
+<!-- DISCOVERY SETS -->
+<section class="disc-section rv">
+  <div class="disc-head">
+    <div>
+      <div class="sec-lbl">Curated Collections</div>
+      <h2 class="sec-tit">Discovery <em>Sets</em></h2>
+    </div>
+    <a href="discovery.html" class="disc-all">View All</a>
+  </div>
+  <div class="disc-grid">
+    <div class="dcard rv">
+      <div class="dcard-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/1-2-1-300x300.webp" alt="Discovery Set 1"></div>
+      <div class="dcard-bar"></div>
+      <div class="dcard-info">
+        <div class="dcard-name">Discovery Set 1</div>
+        <div class="dcard-list">Phoenix · Green Mint · Isle · Obsidian Musk · Royal Shave</div>
+        <div class="dcard-price">₹1,700</div>
+      </div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-1-bliss-citreen-isle-greek-lord-tan/" target="_blank" class="dcard-btn">Shop This Set →</a>
+    </div>
+    <div class="dcard rv" style="transition-delay:.06s">
+      <div class="dcard-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/2-1-1-300x300.webp" alt="Discovery Set 2"></div>
+      <div class="dcard-bar"></div>
+      <div class="dcard-info">
+        <div class="dcard-name">Discovery Set 2</div>
+        <div class="dcard-list">Bright Affair · Clivia · Floriele · Frost Face · Tan</div>
+        <div class="dcard-price">₹1,700</div>
+      </div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-2-bright-affair-clivia-floriele-frost-face-tan/" target="_blank" class="dcard-btn">Shop This Set →</a>
+    </div>
+    <div class="dcard rv" style="transition-delay:.12s">
+      <div class="dcard-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/3-1-1-300x300.webp" alt="Discovery Set 3"></div>
+      <div class="dcard-bar"></div>
+      <div class="dcard-info">
+        <div class="dcard-name">Discovery Set 3</div>
+        <div class="dcard-list">Garden of Dream · Sultan · Vanilla High · Velour · Kimam</div>
+        <div class="dcard-price">₹1,700</div>
+      </div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-3-garden-of-dream-sultan-vanilla-high-velour-kimam/" target="_blank" class="dcard-btn">Shop This Set →</a>
+    </div>
+    <div class="dcard rv" style="transition-delay:.18s">
+      <div class="dcard-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/4-1-1-300x300.webp" alt="Discovery Set 4"></div>
+      <div class="dcard-bar"></div>
+      <div class="dcard-info">
+        <div class="dcard-name">Discovery Set 4</div>
+        <div class="dcard-list">Phoenix · Velour · Royal Shave · Kimam · Tros</div>
+        <div class="dcard-price">₹1,700</div>
+      </div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-4-canabis-blue-velour-look-walk-tan-sultan/" target="_blank" class="dcard-btn">Shop This Set →</a>
+    </div>
+    <div class="dcard rv" style="transition-delay:.24s">
+      <div class="dcard-img"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/5-1-1-300x300.webp" alt="Discovery Set 5"></div>
+      <div class="dcard-bar"></div>
+      <div class="dcard-info">
+        <div class="dcard-name">Discovery Set 5</div>
+        <div class="dcard-list">Obsidian Musk · Summer Tide · Isle · Core Energy · Barber</div>
+        <div class="dcard-price">₹1,700</div>
+      </div>
+      <a href="https://ssniffnsmell.com/product/discovery-set-5-isle-obsidian-musk-hades-tan-garden-of-dream/" target="_blank" class="dcard-btn">Shop This Set →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CATALOG -->
+<section class="catalog">
+  <div class="catalog-head rv">
+    <div>
+      <div class="sec-lbl">All Fragrances</div>
+      <h2 class="sec-tit">The Complete <em>Collection</em></h2>
+    </div>
+  </div>
+  <div class="pgrid" id="grid">
+
+    <!-- All 41 products. data-name=searchable, data-cat=filter, data-price=sort, data-a=accent -->
+
+    <div class="pc" data-name="barber dior eau sauvage extreme men" data-cat="men" data-price="1500" data-a="fresh" onclick="openDetail('barber')">
+      <div class="pbadge new">Men</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/BARBER-1-300x300.jpeg" alt="Barber"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Herbal Fougère</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Barber</div><div class="pins">Inspired by <span>Dior Eau Sauvage Extrême</span></div><div class="pprc">₹400 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="bliss fugazzi sugardaddy unisex" data-cat="unisex" data-price="1700" data-a="vanilla" onclick="openDetail('bliss')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/BLISS-300x300.png" alt="Bliss"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Floral Gourmand</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Bliss</div><div class="pins">Inspired by <span>Fugazzi Sugardaddy</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="bloom opelence creed royal mayfair women" data-cat="women" data-price="1600" data-a="floral" onclick="openDetail('bloom-opelence')">
+      <div class="pbadge new">New</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/BLOOM-300x300.jpeg" alt="Bloom Opelence"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Bloom Opelence</div><div class="pins">Inspired by <span>Creed Royal Mayfair 2024</span></div><div class="pprc">₹99 — ₹1,600</div></div>
+    </div>
+
+    <div class="pc" data-name="booze kilian born to be unforgettable unisex" data-cat="unisex" data-price="1700" data-a="dark" onclick="openDetail('booze')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/booz-1-300x300.jpeg" alt="Booze"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Oriental Gourmand</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Booze</div><div class="pins">Inspired by <span>Kilian Born to Be Unforgettable</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="bright affairs creed aventus absolu men" data-cat="men" data-price="1700" data-a="gold" onclick="openDetail('bright-affairs')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/bright_affairs-300x300.jpg" alt="Bright Affairs"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Fougère</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Bright Affairs</div><div class="pins">Inspired by <span>Creed Aventus Absolu</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="burnt francesca bianchi under my skin unisex" data-cat="unisex" data-price="2199" data-a="leather" onclick="openDetail('burnt')">
+      <div class="pbadge new">New</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/burnt-300x300.jpeg" alt="Burnt"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Leather Smoky</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Burnt</div><div class="pins">Inspired by <span>Francesca Bianchi Under My Skin</span></div><div class="pprc">₹500 — ₹2,199</div></div>
+    </div>
+
+    <div class="pc" data-name="citreen xerjoff nio unisex" data-cat="unisex" data-price="1700" data-a="citrus" onclick="openDetail('citreen')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/citreen-300x300.jpg" alt="Citreen"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Citrus Woody</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Citreen</div><div class="pins">Inspired by <span>Xerjoff Nio</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="civet kilian love don't be shy women" data-cat="women" data-price="1500" data-a="pink" onclick="openDetail('civet')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/civet-300x300.jpg" alt="Civet"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Gourmand</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Civet</div><div class="pins">Inspired by <span>Kilian Love Don't Be Shy</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="clivia creed queen of silk women" data-cat="women" data-price="1650" data-a="floral" onclick="openDetail('clivia')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/CLIVIA-1-300x300.jpeg" alt="Clivia"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Musky</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Clivia</div><div class="pins">Inspired by <span>Creed Queen of Silk</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+    </div>
+
+    <div class="pc" data-name="core energy versace eros energy men" data-cat="men" data-price="1500" data-a="aqua" onclick="openDetail('core-energy')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/CORE-300x300.jpeg" alt="Core Energy"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Core Energy</div><div class="pins">Inspired by <span>Versace Eros Energy</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="drop of divine elie saab royale women" data-cat="women" data-price="1500" data-a="pink" onclick="openDetail('drop-of-divine')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/DOD-300x300.jpeg" alt="Drop of Divine"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Amber</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Drop of Divine</div><div class="pins">Inspired by <span>Elie Saab Royale</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="essense of earth terre de hermes men" data-cat="men" data-price="1500" data-a="earth" onclick="openDetail('essense-of-earth')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/EOE-300x300.png" alt="Essense of Earth"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Earthy Woody</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Essense of Earth</div><div class="pins">Inspired by <span>Hermès Terre de Hermès</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="florielle guerlain angelique noire women" data-cat="women" data-price="1700" data-a="dark" onclick="openDetail('florielle')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/florielle-300x300.jpeg" alt="Florielle"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Oriental Floral</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Florielle</div><div class="pins">Inspired by <span>Guerlain Angélique Noire</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="fougere absinthe boreale men" data-cat="men" data-price="1500" data-a="green" onclick="openDetail('fougere')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/forgere-300x300.jpg" alt="Fougere"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Green</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Fougere</div><div class="pins">Inspired by <span>Absinthe Boréale</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="frost face frederic malle the moon unisex" data-cat="unisex" data-price="2199" data-a="cold" onclick="openDetail('frost-face')">
+      <div class="pbadge new">Bestseller</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/frost-face-300x300.jpeg" alt="Frost Face"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Chypre Floral</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Frost Face</div><div class="pins">Inspired by <span>Frederic Malle — The Moon</span></div><div class="pprc">₹149 — ₹2,199</div></div>
+    </div>
+
+    <div class="pc" data-name="garden of dream gucci gorgeous gardenia women" data-cat="women" data-price="1500" data-a="fresh" onclick="openDetail('garden-of-dream')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/garden_of_dream-300x300.jpg" alt="Garden of Dream"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Garden of Dream</div><div class="pins">Inspired by <span>Gucci Gorgeous Gardenia</span></div><div class="pprc">₹400 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="greek lord frederic malle hope men" data-cat="men" data-price="1700" data-a="regal" onclick="openDetail('greek-lord')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/gree_lord-300x300.jpg" alt="Greek Lord"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Woody</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Greek Lord</div><div class="pins">Inspired by <span>Frederic Malle Hope</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="green mint micallef gntonic men unisex" data-cat="men" data-price="1650" data-a="green" onclick="openDetail('green-mint')">
+      <div class="pbadge new">New</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/GREEN-MINT-300x300.jpeg" alt="Green Mint"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Mint</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Green Mint</div><div class="pins">Inspired by <span>M. Micallef GNTonic</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+    </div>
+
+    <div class="pc" data-name="hades shl god of fire unisex" data-cat="unisex" data-price="1500" data-a="fire" onclick="openDetail('hades')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/hade-300x300.jpeg" alt="Hades"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Smoky Woody</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Hades</div><div class="pins">Inspired by <span>SHL God of Fire</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="irish dior homme parfum men" data-cat="men" data-price="1650" data-a="smoke" onclick="openDetail('irish')">
+      <div class="pbadge new">New</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/IRISH-300x300.jpeg" alt="Irish"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Powdery Iris</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Irish</div><div class="pins">Inspired by <span>Dior Homme Parfum</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+    </div>
+
+    <div class="pc" data-name="isle roja isola blu unisex" data-cat="unisex" data-price="1700" data-a="aqua" onclick="openDetail('isle')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/isle-300x300.jpg" alt="Isle"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Citrus Marine</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Isle</div><div class="pins">Inspired by <span>Roja Isola Blu</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="japa hibiscus mahajad women" data-cat="women" data-price="1700" data-a="pink" onclick="openDetail('japa')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/japa-300x300.jpg" alt="Japa"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Hibiscus</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Japa</div><div class="pins">Inspired by <span>Hibiscus Mahajad</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="kimam tom ford oud wood unisex" data-cat="unisex" data-price="1700" data-a="earth" onclick="openDetail('kimam')">
+      <div class="pbadge coming">Dispatch 25 May</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/kimam-300x300.jpg" alt="Kimam"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Woody Oud</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Kimam</div><div class="pins">Inspired by <span>Tom Ford Oud Wood</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="lea town xerjoff torino 21 men" data-cat="men" data-price="1650" data-a="citrus" onclick="openDetail('lea-town')">
+      <div class="pbadge new">New</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/04/LEA-TOWN-300x300.jpeg" alt="Lea Town"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Citrus Aromatic</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Lea Town</div><div class="pins">Inspired by <span>Xerjoff Torino 21</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+    </div>
+
+    <div class="pc" data-name="loop walk thomas kosmala tonic vert men" data-cat="men" data-price="1500" data-a="green" onclick="openDetail('loop-walk')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/WhatsApp-Image-2025-10-09-at-17.31.39-300x300.png" alt="Loop Walk"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Loop Walk</div><div class="pins">Inspired by <span>Thomas Kosmala Tonic Vert No.8</span></div><div class="pprc">₹400 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="mint root armani vetiver dhiver men" data-cat="men" data-price="1700" data-a="green" onclick="openDetail('mint-root')">
+      <div class="pbadge coming">Dispatch 25 May</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/WhatsApp-Image-2024-05-21-at-15.53.26_6e94e8d3-300x300.jpg" alt="Mint Root"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Earthy Vetiver</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Mint Root</div><div class="pins">Inspired by <span>Armani Vétiver d'Hiver</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="obsidian musk initio musk therapy unisex" data-cat="unisex" data-price="1899" data-a="musk" onclick="openDetail('obsidian-musk')">
+      <div class="pbadge new">Bestseller</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/o-musk-300x300.jpeg" alt="Obsidian Musk"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · White Musk</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Obsidian Musk</div><div class="pins">Inspired by <span>Initio Musk Therapy</span></div><div class="pprc">₹110 — ₹1,899</div></div>
+    </div>
+
+    <div class="pc" data-name="phoenix cannabis blue unisex" data-cat="unisex" data-price="1549" data-a="green" onclick="openDetail('phoenix')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/phoenix-300x300.jpeg" alt="Phoenix"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Aromatic Green</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Phoenix</div><div class="pins">Inspired by <span>Cannabis Blue</span></div><div class="pprc">₹99 — ₹1,549</div></div>
+    </div>
+
+    <div class="pc" data-name="pistachio tom ford noir extreme men" data-cat="men" data-price="1700" data-a="fire" onclick="openDetail('pistachio')">
+      <div class="pbadge coming">Dispatch 25 May</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/pis-300x300.png" alt="Pistachio"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Oriental Woody</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Pistachio</div><div class="pins">Inspired by <span>Tom Ford Noir Extreme</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="pomelo dunhill icon men" data-cat="men" data-price="1500" data-a="citrus" onclick="openDetail('pomelo')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/pomelo-300x300.jpg" alt="Pomelo"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Citrus Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Pomelo</div><div class="pins">Inspired by <span>Dunhill Icon</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="royal shave burning barbershop ds durga men" data-cat="men" data-price="1671" data-a="fresh" onclick="openDetail('royal-shave')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/03/ROYAL-SHAVE-1-300x300.jpeg" alt="Royal Shave"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Aromatic Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Royal Shave</div><div class="pins">Inspired by <span>DS & Durga Burning Barbershop</span></div><div class="pprc">₹110 — ₹1,671</div></div>
+    </div>
+
+    <div class="pc" data-name="saffron rush nishane safran colognise unisex" data-cat="unisex" data-price="1600" data-a="spice" onclick="openDetail('saffron-rush')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/03/SAFRAN-RUSH-300x300.jpeg" alt="Saffron Rush"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Spicy Oriental</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Saffron Rush</div><div class="pins">Inspired by <span>Nishane Safran Colognise</span></div><div class="pprc">₹99 — ₹1,600</div></div>
+    </div>
+
+    <div class="pc" data-name="sailor roja oceania unisex" data-cat="unisex" data-price="1650" data-a="aqua" onclick="openDetail('sailor')">
+      <div class="pbadge coming">Dispatch 25 May</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/SAILOR-300x300.jpeg" alt="Sailor"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Marine Floral</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Sailor</div><div class="pins">Inspired by <span>Roja Oceania</span></div><div class="pprc">₹99 — ₹1,650</div></div>
+    </div>
+
+    <div class="pc" data-name="smoulder ormonde jayne montabaco intensivo men" data-cat="men" data-price="1550" data-a="smoke" onclick="openDetail('smoulder')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/SMOULDER-300x300.jpeg" alt="Smoulder"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Smoky Tobacco</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Smoulder</div><div class="pins">Inspired by <span>Ormonde Jayne Montabaco Intensivo</span></div><div class="pprc">₹99 — ₹1,550</div></div>
+    </div>
+
+    <div class="pc" data-name="stellar maison crivelli tubereuse astrale women" data-cat="women" data-price="2499" data-a="floral" onclick="openDetail('stellar')">
+      <div class="pbadge coming">Dispatch 25 May</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/WhatsApp-Image-2025-05-28-at-18.37.10-300x300.png" alt="Stellar"><div class="pglow"></div><div class="pov"><span class="ptag">Women · Floral Musky</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Stellar</div><div class="pins">Inspired by <span>Maison Crivelli Tubéreuse Astrale</span></div><div class="pprc">₹149 — ₹2,499</div></div>
+    </div>
+
+    <div class="pc" data-name="stud dolce gabbana the one edp men" data-cat="men" data-price="300" data-a="vanilla" onclick="openDetail('stud')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/stud-300x300.jpg" alt="Stud"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Oriental Amber</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Stud</div><div class="pins">Inspired by <span>D&G The One EDP</span></div><div class="pprc">₹99 — ₹300</div></div>
+    </div>
+
+    <div class="pc" data-name="sultan thameen london royal sapphire men" data-cat="men" data-price="1700" data-a="regal" onclick="openDetail('sultan')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/sultan-300x300.jpg" alt="Sultan"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Oriental Floral</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Sultan</div><div class="pins">Inspired by <span>Thameen London Royal Sapphire</span></div><div class="pprc">₹400 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="summer tide summer hammer unisex" data-cat="unisex" data-price="1500" data-a="aqua" onclick="openDetail('summer-tide')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/summertide-300x300.jpg" alt="Summer Tide"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Aquatic Fresh</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Summer Tide</div><div class="pins">Inspired by <span>Summer Hammer</span></div><div class="pprc">₹99 — ₹1,500</div></div>
+    </div>
+
+    <div class="pc" data-name="tan tom ford tuscan leather men unisex" data-cat="men" data-price="1700" data-a="leather" onclick="openDetail('tan')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/TAN-300x300.jpeg" alt="Tan"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Leather Suede</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Tan</div><div class="pins">Inspired by <span>Tom Ford Tuscan Leather</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="tros bvlgari tygar men" data-cat="men" data-price="1999" data-a="fire" onclick="openDetail('tros')">
+      <div class="pbadge coming">Dispatch 31 Mar</div>
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/tros-300x300.jpg" alt="Tros"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Woody Spicy</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Tros</div><div class="pins">Inspired by <span>Bvlgari Tygar</span></div><div class="pprc">₹600 — ₹1,999</div></div>
+    </div>
+
+    <div class="pc" data-name="two shades lv ombre nomade louis vuitton unisex" data-cat="unisex" data-price="1700" data-a="earth" onclick="openDetail('two-shades')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/TWO-SHADE-300x300.jpeg" alt="Two Shades"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Oud Amber</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Two Shades</div><div class="pins">Inspired by <span>Louis Vuitton Ombre Nomade</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="vanilla high goldfield banks ingenious ginger unisex" data-cat="unisex" data-price="1700" data-a="vanilla" onclick="openDetail('vanilla-high')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/vanilla_high-300x300.jpg" alt="Vanilla High"><div class="pglow"></div><div class="pov"><span class="ptag">Unisex · Warm Gourmand</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Vanilla High</div><div class="pins">Inspired by <span>Goldfield & Banks Ingenious Ginger</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="pc" data-name="velour bleu de chanel lexclusif men" data-cat="men" data-price="1700" data-a="aqua" onclick="openDetail('velour')">
+      <div class="pimg"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/02/VELOUR-300x300.jpeg" alt="Velour"><div class="pglow"></div><div class="pov"><span class="ptag">Men · Woody Aromatic</span><button class="pbtn">Discover →</button></div></div>
+      <div class="pbar"></div>
+      <div class="pinf"><div class="pname">Velour</div><div class="pins">Inspired by <span>Bleu de Chanel L'Exclusif</span></div><div class="pprc">₹99 — ₹1,700</div></div>
+    </div>
+
+    <div class="no-results" id="noResults" style="display:none">
+      No fragrances found
+      <span>Try a different search or clear your filters</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftop">
+    <div>
+      <div class="fbl"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="fbn">Ssniff <em>N</em> Smell</span></div>
+      <p class="fbp">Handcrafted niche fragrance dupes from India. Zero chemicals. Zero compromise.</p>
+      <a href="https://wa.me/919561190267" target="_blank" class="fwa">💬 Chat on WhatsApp</a>
+    </div>
+    <div><div class="fct">Navigate</div><ul class="fls"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="discovery.html">Discovery Sets</a></li><li><a href="samples.html">2ml Samples</a></li><li><a href="restock.html">Restock</a></li></ul></div>
+    <div><div class="fct">Customer</div><ul class="fls"><li><a href="https://ssniffnsmell.com/my-account/" target="_blank">My Account</a></li><li><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Order</a></li><li><a href="https://ssniffnsmell.com/wishlist/" target="_blank">Wishlist</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="fct">Policies</div><ul class="fls"><li><a href="https://ssniffnsmell.com/privacy-policy/" target="_blank">Privacy Policy</a></li><li><a href="https://ssniffnsmell.com/terms-and-conditions/" target="_blank">Terms</a></li><li><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Refunds</a></li><li><a href="https://ssniffnsmell.com/shipping/" target="_blank">Shipping</a></li></ul></div>
+  </div>
+  <div class="fbot"><p class="fcp">© 2026 Ssniff N Smell. All Rights Reserved.</p><p class="ftag">For noses that know.</p></div>
+</footer>
+
+<!-- DETAIL PANEL -->
+<div class="dpanel" id="dp">
+  <button class="dback" onclick="closeDetail()"><span>←</span> Back to Shop</button>
+  <div class="dlay">
+    <div class="diz"><div class="diw"><div class="dglow" id="dg"></div><img id="di" src="" alt=""></div></div>
+    <div>
+      <div class="dcat" id="dc"></div>
+      <h1 class="dnm" id="dn"></h1>
+      <p class="dins" id="dins"></p>
+      <p class="ddesc" id="dd"></p>
+      <span class="szlbl">Select Size</span>
+      <div class="szs" id="ds"></div>
+      <div class="dcta">
+        <a id="dbuy" href="#" target="_blank" class="bbuy">Shop on Ssniff N Smell →</a>
+        <button class="bwl">♡</button>
+      </div>
+      <div class="dnotes"><h3 class="dntl">Scent Profile</h3><div class="ngrid" id="dn2"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function l(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(l);})();
+document.querySelectorAll('a,button,.pc,.dcard,.sz,.fBtn').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('h'));el.addEventListener('mouseleave',()=>ring.classList.remove('h'));});
+
+/* SCROLL */
+const sp=document.getElementById('sp');
+window.addEventListener('scroll',()=>{sp.style.transform=`scaleX(${window.scrollY/(document.documentElement.scrollHeight-innerHeight)})`;});
+
+/* OBSERVER */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* 3D TILT */
+document.querySelectorAll('.pc').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=r.width/2,cy=r.height/2;
+    card.style.transform=`perspective(800px) rotateX(${((y-cy)/cy)*-6}deg) rotateY(${((x-cx)/cx)*6}deg) translateZ(10px) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)';});
+});
+
+/* FILTER + SEARCH + SORT */
+const cards=[...document.querySelectorAll('.pc')];
+let currentFilter='all', currentSearch='', currentSort='default';
+
+function applyFilters(){
+  const q=currentSearch.toLowerCase();
+  let visible=cards.filter(c=>{
+    const name=c.dataset.name.toLowerCase();
+    const cat=c.dataset.cat;
+    const matchSearch=!q||name.includes(q);
+    const matchFilter=currentFilter==='all'||cat===currentFilter;
+    return matchSearch&&matchFilter;
+  });
+  if(currentSort==='name-asc') visible.sort((a,b)=>a.querySelector('.pname').textContent.localeCompare(b.querySelector('.pname').textContent));
+  else if(currentSort==='name-desc') visible.sort((a,b)=>b.querySelector('.pname').textContent.localeCompare(a.querySelector('.pname').textContent));
+  else if(currentSort==='price-asc') visible.sort((a,b)=>+a.dataset.price- +b.dataset.price);
+  else if(currentSort==='price-desc') visible.sort((a,b)=>+b.dataset.price- +a.dataset.price);
+  const grid=document.getElementById('grid');
+  cards.forEach(c=>c.classList.add('hidden'));
+  visible.forEach((c,i)=>{c.classList.remove('hidden');c.style.animationDelay=(i*0.03)+'s';grid.appendChild(c);});
+  document.getElementById('countNum').textContent=visible.length;
+  document.getElementById('noResults').style.display=visible.length?'none':'block';
+}
+
+document.getElementById('searchInput').addEventListener('input',e=>{currentSearch=e.target.value;applyFilters();});
+document.querySelectorAll('.fBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fBtn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    currentFilter=btn.dataset.filter;
+    applyFilters();
+  });
+});
+document.getElementById('sortSel').addEventListener('change',e=>{currentSort=e.target.value;applyFilters();});
+
+/* PRODUCT DATA */
+const PD={
+  'barber':{name:'Barber',cat:'Men · Herbal Fougère',ac:'#90c8a0',insp:'Inspired by <strong>Dior Eau Sauvage Extrême</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/BARBER-1-300x300.jpeg',desc:'Sharp, barbershop-clean, and undeniably masculine. Barber opens with a hit of citrus and herbal freshness before settling into a woody, smoky drydown. It\'s the scent of a man who takes his appearance seriously — effortlessly groomed, never trying too hard.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Citrus, Herbs, Lavender'},{t:'Heart',v:'Leather, Vetiver, Geranium'},{t:'Base',v:'Smoky Wood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/barber-dior-eau-sauvage-extreme/'},
+  'bliss':{name:'Bliss',cat:'Unisex · Floral Gourmand',ac:'#d4b870',insp:'Inspired by <strong>Fugazzi Sugardaddy</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/BLISS-300x300.png',desc:'Warm, enveloping, and sweet without being cloying. Bliss opens with powdery florals and a gourmand sweetness that somehow never tips over. It\'s the fragrance equivalent of a warm hug — intimate, comforting, and impossible to ignore.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Peach, Rose, Bergamot'},{t:'Heart',v:'Jasmine, Iris, Vanilla'},{t:'Base',v:'Musk, Sandalwood, Caramel'}],url:'https://ssniffnsmell.com/product/bliss-fugazzi-sugardaddy/'},
+  'bloom-opelence':{name:'Bloom Opelence',cat:'Women · Floral Fresh',ac:'#d4789e',insp:'Inspired by <strong>Creed Royal Mayfair 2024</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/04/BLOOM-300x300.jpeg',desc:'The newest addition to the Ssniff N Smell canon — Bloom Opelence captures the regal sophistication of Creed\'s 2024 masterpiece. Fresh florals layered over a warm, sensual base. For the woman who doesn\'t need to announce her presence.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,600'}],notes:[{t:'Top',v:'Bergamot, Citrus, Green Notes'},{t:'Heart',v:'Rose, Jasmine, Orris'},{t:'Base',v:'Sandalwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/bloom-opelence-creed-royal-mayfair-2024/'},
+  'booze':{name:'Booze',cat:'Unisex · Oriental Gourmand',ac:'#6040a0',insp:'Inspired by <strong>Kilian Born to Be Unforgettable</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/booz-1-300x300.jpeg',desc:'Dark, complex, and unapologetically addictive. Booze opens with a heady rum-and-tobacco accord that deepens into a rich oriental drydown. It\'s the fragrance equivalent of a late night you\'ll never forget.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Rum, Tobacco, Dark Plum'},{t:'Heart',v:'Rose, Jasmine, Spices'},{t:'Base',v:'Oud, Amber, Vanilla, Musk'}],url:'https://ssniffnsmell.com/product/booze-kilian-born-to-be-unforgettable/'},
+  'bright-affairs':{name:'Bright Affairs',cat:'Men · Aromatic Fougère',ac:'#c9922b',insp:'Inspired by <strong>Creed Aventus Absolu</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/bright_affairs-300x300.jpg',desc:'Aventus Absolu reimagined. Bright Affairs opens with a burst of pineapple and blackcurrant before moving into a rich, smoky heart. The masculine poise, the quiet confidence, the magnetic trail that makes people lean in.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Pineapple, Blackcurrant, Bergamot'},{t:'Heart',v:'Birch, Jasmine, Rose'},{t:'Base',v:'Musk, Oakmoss, Vanilla, Ambergris'}],url:'https://ssniffnsmell.com/product/bright-affairs-creed-aventus-absolu/'},
+  'burnt':{name:'Burnt',cat:'Unisex · Leather Smoky',ac:'#8b5e3c',insp:'Inspired by <strong>Francesca Bianchi Under My Skin</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/04/burnt-300x300.jpeg',desc:'Raw, animalic, and deeply intimate. Burnt is the fragrance you wear when you want to be felt more than smelled. It opens with a leathery, almost smoky quality that settles into a warm, skin-like base. Challenging, unforgettable.',sz:[{ml:'2ml Sample',p:'₹500'},{ml:'10ml',p:'₹700'},{ml:'50ml',p:'₹2,199'}],notes:[{t:'Top',v:'Leather, Black Pepper, Saffron'},{t:'Heart',v:'Rose, Civet, Tobacco'},{t:'Base',v:'Musk, Amber, Oud, Vanilla'}],url:'https://ssniffnsmell.com/product/burnt-under-my-skin-francesca-bianchi/'},
+  'citreen':{name:'Citreen',cat:'Unisex · Citrus Woody',ac:'#b8d040',insp:'Inspired by <strong>Xerjoff Nio</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/citreen-300x300.jpg',desc:'Sunlight on stone. Citreen opens with bright citrus clarity before settling into a warm, woody drydown. Inspired by Xerjoff\'s Nio — effortlessly versatile, polished enough for the office, confident enough for anywhere.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Bergamot, Lemon, Orange Zest'},{t:'Heart',v:'Jasmine, Geranium, Cedar'},{t:'Base',v:'Sandalwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/citreen-xerjoff-nio/'},
+  'civet':{name:'Civet',cat:'Women · Floral Gourmand',ac:'#e090b0',insp:'Inspired by <strong>Kilian Love Don\'t Be Shy</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/civet-300x300.jpg',desc:'The sweetest fragrance we make. Civet is unapologetically feminine — a cloud of neroli, honeysuckle, and marshmallow that somehow stays elegant. It\'s the scent of confidence dressed in softness.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Neroli, Grapefruit, Bergamot'},{t:'Heart',v:'Honeysuckle, Jasmine, Rose'},{t:'Base',v:'Marshmallow, White Musk, Vanilla'}],url:'https://ssniffnsmell.com/product/civet-kilian-love-dont-be-shy/'},
+  'clivia':{name:'Clivia',cat:'Women · Floral Musky',ac:'#d4789e',insp:'Inspired by <strong>Creed Queen of Silk</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/CLIVIA-1-300x300.jpeg',desc:'Soft power. Clivia opens with a delicate rush of peach and bergamot before blooming into a powdery floral heart. The base is pure silk on skin. Inspired by Creed\'s Queen of Silk — femininity with quiet authority.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,650'}],notes:[{t:'Top',v:'Peach, Bergamot, Grapefruit'},{t:'Heart',v:'Rose, Peony, Muguet'},{t:'Base',v:'Musk, Sandalwood, Ambergris'}],url:'https://ssniffnsmell.com/product/clivia-creed-queen-of-silk/'},
+  'core-energy':{name:'Core Energy',cat:'Men · Aromatic Fresh',ac:'#50b8d8',insp:'Inspired by <strong>Versace Eros Energy</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/CORE-300x300.jpeg',desc:'High-octane freshness. Core Energy opens with a burst of mint and citrus that evolves into a clean, woody heart. It\'s the fragrance for someone always in motion — charged, present, and impossible to miss.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Mint, Lemon, Bergamot'},{t:'Heart',v:'Ambroxan, Tonka, Geranium'},{t:'Base',v:'Vetiver, Musk, Cedarwood'}],url:'https://ssniffnsmell.com/product/core-energy-versace-eros-energy/'},
+  'drop-of-divine':{name:'Drop of Divine',cat:'Women · Floral Amber',ac:'#e090b0',insp:'Inspired by <strong>Elie Saab Royale</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/DOD-300x300.jpeg',desc:'A drop of something precious. Drop of Divine opens with sheer florals that bloom into a warm amber heart — sensual but never heavy. Inspired by Elie Saab\'s Royale, it\'s the fragrance for evenings that matter.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Bergamot, Orange Blossom, Neroli'},{t:'Heart',v:'Rose, Jasmine, Gardenia'},{t:'Base',v:'Amber, Sandalwood, White Musk'}],url:'https://ssniffnsmell.com/product/drop-of-divine-elie-saab-royale-dispatch-starts-from-31-03-2026/'},
+  'essense-of-earth':{name:'Essense of Earth',cat:'Men · Earthy Woody',ac:'#a07850',insp:'Inspired by <strong>Hermès Terre de Hermès</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/EOE-300x300.png',desc:'Earth, stone, and sky. Essense of Earth is raw masculinity — a mineral, woody accord that opens sharp and settles into something warm and deeply grounding. For the man rooted in himself.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Citrus, Pink Pepper, Flint'},{t:'Heart',v:'Geranium, Vetiver, Benzene'},{t:'Base',v:'Cedarwood, Benzoin, Amber'}],url:'https://ssniffnsmell.com/product/essense-of-earth-tere-de-hermes/'},
+  'florielle':{name:'Florielle',cat:'Women · Oriental Floral',ac:'#6040a0',insp:'Inspired by <strong>Guerlain Angélique Noire</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/florielle-300x300.jpeg',desc:'Dark florals for the woman who doesn\'t do pastel. Florielle opens with a bold angelica accord before revealing a heart of dark rose and musk. Deep, mysterious, and completely captivating.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Angelica, Bergamot, Black Pepper'},{t:'Heart',v:'Dark Rose, Iris, Ylang Ylang'},{t:'Base',v:'Musk, Vanilla, Amber'}],url:'https://ssniffnsmell.com/product/florielle-guerlian-angelique-noire/'},
+  'fougere':{name:'Fougere',cat:'Men · Aromatic Green',ac:'#60a860',insp:'Inspired by <strong>Absinthe Boréale</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/forgere-300x300.jpg',desc:'The forest in a bottle. Fougere opens with a cool, herbal absinthe accord that leads into a clean green heart. Unconventional, Nordic-inspired, and quietly brilliant.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Absinthe, Wormwood, Citrus'},{t:'Heart',v:'Fern, Lavender, Green Notes'},{t:'Base',v:'Oakmoss, Cedarwood, Musk'}],url:'https://ssniffnsmell.com/product/fougere-absinthe-boreale/'},
+  'frost-face':{name:'Frost Face',cat:'Unisex · Chypre Floral',ac:'#8fb8d4',insp:'Inspired by <strong>Frederic Malle — The Moon</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/frost-face-300x300.jpeg',desc:'An ethereal chypre that opens with sharp bergamot clarity before settling into a powdery heart of iris and white musk. Frost Face captures the lunar poetry of Frederic Malle\'s The Moon — otherworldly, cool, and impossibly elegant.',sz:[{ml:'2ml Sample',p:'₹149'},{ml:'10ml',p:'₹500'},{ml:'50ml',p:'₹2,199'}],notes:[{t:'Top',v:'Bergamot, Aldehydes, White Pepper'},{t:'Heart',v:'Iris, Violet, Jasmine'},{t:'Base',v:'White Musk, Sandalwood, Vetiver'}],url:'https://ssniffnsmell.com/product/frost-face-fm-the-moon/'},
+  'garden-of-dream':{name:'Garden of Dream',cat:'Women · Floral Fresh',ac:'#90c8a0',insp:'Inspired by <strong>Gucci Gorgeous Gardenia</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/garden_of_dream-300x300.jpg',desc:'A garden in full bloom. Garden of Dream opens with gardenia and jasmine in a burst of natural florals that feel like they\'re cut fresh. Light, luminous, and beautiful on summer skin.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Red Berries, Mandarin, Peony'},{t:'Heart',v:'Gardenia, Jasmine, Lily'},{t:'Base',v:'Musk, Sandalwood, Amber'}],url:'https://ssniffnsmell.com/product/garden-of-dream-gucci-gorgeous-gardenia/'},
+  'greek-lord':{name:'Greek Lord',cat:'Men · Aromatic Woody',ac:'#7060d0',insp:'Inspired by <strong>Frederic Malle Hope</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/gree_lord-300x300.jpg',desc:'Power and refinement in one accord. Greek Lord is a statement fragrance — aromatic, warm, and deeply masculine. The kind of scent that makes a room remember you.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Cardamom, Bergamot, Black Pepper'},{t:'Heart',v:'Leather, Iris, Vetiver'},{t:'Base',v:'Sandalwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/greek-lord-frederic-malle-hope/'},
+  'green-mint':{name:'Green Mint',cat:'Men · Aromatic Mint',ac:'#60a860',insp:'Inspired by <strong>M. Micallef GNTonic</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/GREEN-MINT-300x300.jpeg',desc:'The sharpest freshness we make. Green Mint opens with a powerful, almost medicinal mint accord — clean, cold, and completely distinctive. It settles into a woody green base that wears like nothing else in your collection.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,650'}],notes:[{t:'Top',v:'Peppermint, Basil, Bergamot'},{t:'Heart',v:'Green Tea, Vetiver, Geranium'},{t:'Base',v:'Cedarwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/green-mint-gntonic-m-micallef/'},
+  'hades':{name:'Hades',cat:'Unisex · Smoky Woody',ac:'#e87a3a',insp:'Inspired by <strong>SHL God of Fire</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/hade-300x300.jpeg',desc:'Fire and shadow. Hades is a smoky, resinous composition that opens with a blast of dark spice before revealing a deep, woody heart. Not for the faint of heart — this is fragrance for those who like to make an impression.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Smoke, Black Pepper, Cardamom'},{t:'Heart',v:'Oud, Leather, Incense'},{t:'Base',v:'Amber, Musk, Labdanum'}],url:'https://ssniffnsmell.com/product/hades-shl-god-of-fire/'},
+  'irish':{name:'Irish',cat:'Men · Powdery Iris',ac:'#909098',insp:'Inspired by <strong>Dior Homme Parfum</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/04/IRISH-300x300.jpeg',desc:'The most sophisticated fragrance in our collection. Irish is a powdery iris composition of immense refinement — cool, precise, and unmistakably elegant. Inspired by Dior Homme Parfum, it\'s the scent of a man who has nothing to prove.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,650'}],notes:[{t:'Top',v:'Bergamot, Iris, Aldehydes'},{t:'Heart',v:'Violet, Rose, Incense'},{t:'Base',v:'Vetiver, Sandalwood, Amber'}],url:'https://ssniffnsmell.com/product/irish-dior-homme-parfum/'},
+  'isle':{name:'Isle',cat:'Unisex · Citrus Marine',ac:'#50b8d8',insp:'Inspired by <strong>Roja Isola Blu</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/isle-300x300.jpg',desc:'The Mediterranean in a bottle. Isle opens with a wave of citrus and marine notes before evolving into a warm, woody drydown. Clean, coastal, and impossibly refreshing.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Bergamot, Sea Salt, Mandarin'},{t:'Heart',v:'Jasmine, Marine Accord, Vetiver'},{t:'Base',v:'Cedarwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/isle-roja-isola-blu/'},
+  'japa':{name:'Japa',cat:'Women · Floral Hibiscus',ac:'#e090b0',insp:'Inspired by <strong>Hibiscus Mahajad</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/japa-300x300.jpg',desc:'Vibrant, tropical, and deeply feminine. Japa captures the lush sensuality of hibiscus in full bloom — tart, floral, and quietly hypnotic. A unique fragrance that stands apart from everything else in the collection.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Hibiscus, Red Berries, Citrus'},{t:'Heart',v:'Rose, Jasmine, Ylang Ylang'},{t:'Base',v:'Musk, Sandalwood, Vanilla'}],url:'https://ssniffnsmell.com/product/japa-hibiscus-mahajad/'},
+  'kimam':{name:'Kimam',cat:'Unisex · Woody Oud',ac:'#a07850',insp:'Inspired by <strong>Tom Ford Oud Wood</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/kimam-300x300.jpg',desc:'Oud, rarer than gold. Kimam captures the precise meditative smoke of Tom Ford\'s iconic Oud Wood — the rosewood, the cardamom, the vanillic warmth beneath. Dry, sophisticated, deeply personal.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Rosewood, Cardamom, Chinese Pepper'},{t:'Heart',v:'Oud Wood, Sandalwood, Vetiver'},{t:'Base',v:'Tonka Bean, Amber, Vanilla'}],url:'https://ssniffnsmell.com/product/kimam-tf-oud-wood/'},
+  'lea-town':{name:'Lea Town',cat:'Men · Citrus Aromatic',ac:'#b8d040',insp:'Inspired by <strong>Xerjoff Torino 21</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/04/LEA-TOWN-300x300.jpeg',desc:'Italian elegance bottled. Lea Town is a sophisticated citrus-aromatic that opens bright and settles warm. Inspired by Xerjoff\'s Torino 21 — the fragrance of a perfectly tailored suit.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,650'}],notes:[{t:'Top',v:'Bergamot, Mandarin, Citrus'},{t:'Heart',v:'Jasmine, Iris, Geranium'},{t:'Base',v:'Sandalwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/lea-town-xerjoff-torino-21/'},
+  'loop-walk':{name:'Loop Walk',cat:'Men · Aromatic Fresh',ac:'#60a860',insp:'Inspired by <strong>Thomas Kosmala Tonic Vert No.8</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/WhatsApp-Image-2025-10-09-at-17.31.39-300x300.png',desc:'The freshest thing we make. Loop Walk is a green, tonic freshness — herbal, clean, and invigorating. Inspired by Thomas Kosmala\'s Tonic Vert, it\'s the perfect everyday fragrance for the man who wants to smell like effort without the effort.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Green Notes, Herbs, Lemon'},{t:'Heart',v:'Vetiver, Cedar, Iris'},{t:'Base',v:'Musk, Amber, Sandalwood'}],url:'https://ssniffnsmell.com/product/loop-walk-thomas-kosmala-tonic-vert-no-8/'},
+  'mint-root':{name:'Mint Root',cat:'Men · Earthy Vetiver',ac:'#60a860',insp:'Inspired by <strong>Armani Vétiver d\'Hiver</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/WhatsApp-Image-2024-05-21-at-15.53.26_6e94e8d3-300x300.jpg',desc:'Deep earth and cool mint in perfect balance. Mint Root is a sophisticated vetiver composition — rooty, mineral, and complex. It\'s the fragrance for the man who appreciates what\'s beneath the surface.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Mint, Bergamot, Green Notes'},{t:'Heart',v:'Vetiver, Iris, Geranium'},{t:'Base',v:'Sandalwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/mint-root-armani-vetiver-dhiver/'},
+  'obsidian-musk':{name:'Obsidian Musk',cat:'Unisex · White Musk',ac:'#ddd8c8',insp:'Inspired by <strong>Initio Musk Therapy</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/o-musk-300x300.jpeg',desc:'The cleanest skin you\'ll ever wear. Obsidian Musk opens as a whisper of white musk that slowly envelops you like a second skin. The ultimate compliment-getter — people lean in before they know why.',sz:[{ml:'2ml Sample',p:'₹110'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,899'}],notes:[{t:'Top',v:'White Musk, Bergamot'},{t:'Heart',v:'Iris, Hedione, Skin Accords'},{t:'Base',v:'Cashmere Wood, Ambroxan, Musk'}],url:'https://ssniffnsmell.com/product/obsidian-musk-initio-musk-therapy/'},
+  'phoenix':{name:'Phoenix',cat:'Unisex · Aromatic Green',ac:'#60a860',insp:'Inspired by <strong>Cannabis Blue</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/phoenix-300x300.jpeg',desc:'Unconventional and captivating. Phoenix opens with a distinctive cannabis-blue accord — not what you\'d expect, not what you\'ll forget. Green, herbal, and deeply original. For the nose that likes to wander off the beaten track.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,549'}],notes:[{t:'Top',v:'Cannabis, Green Notes, Citrus'},{t:'Heart',v:'Lavender, Vetiver, Cedar'},{t:'Base',v:'Musk, Amber, Sandalwood'}],url:'https://ssniffnsmell.com/product/phoenix-cannabis-blue/'},
+  'pistachio':{name:'Pistachio',cat:'Men · Oriental Woody',ac:'#e87a3a',insp:'Inspired by <strong>Tom Ford Noir Extreme</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/pis-300x300.png',desc:'Rich, dark, and intoxicating. Pistachio opens with nutty sweetness before revealing a complex oriental of amber, vanilla, and wood. Cold-weather, close-encounter fragrance. Wear it when the night demands something unforgettable.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Mandarin, Neroli, Cardamom'},{t:'Heart',v:'Rose, Nutmeg, Saffron'},{t:'Base',v:'Vanilla, Amber, Vetiver, Sandalwood'}],url:'https://ssniffnsmell.com/product/pistachio-tom-ford-noir-extreme/'},
+  'pomelo':{name:'Pomelo',cat:'Men · Citrus Fresh',ac:'#b8d040',insp:'Inspired by <strong>Dunhill Icon</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/pomelo-300x300.jpg',desc:'Clean, crisp, and immediately likeable. Pomelo opens with a bright citrus burst before settling into a woody, aromatic drydown. The perfect everyday fragrance — never too much, always enough.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Pomelo, Bergamot, Lemon'},{t:'Heart',v:'Cardamom, Iris, Vetiver'},{t:'Base',v:'Sandalwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/pomelo-dunhill-icon/'},
+  'royal-shave':{name:'Royal Shave',cat:'Men · Aromatic Fresh',ac:'#90c8a0',insp:'Inspired by <strong>DS & Durga Burning Barbershop</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/03/ROYAL-SHAVE-1-300x300.jpeg',desc:'The scent of a perfect shave. Royal Shave is a classic barbershop accord — sharp, clean, and deeply nostalgic. Opening with citrus and herbs, it dries down to a warm, woody musk that lasts all day.',sz:[{ml:'2ml Sample',p:'₹110'},{ml:'10ml',p:'₹500'},{ml:'50ml',p:'₹1,671'}],notes:[{t:'Top',v:'Bergamot, Citrus, Lavender'},{t:'Heart',v:'Geranium, Iris, Cedar'},{t:'Base',v:'Sandalwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/royal-shave-burning-barbershop-ds-durga/'},
+  'saffron-rush':{name:'Saffron Rush',cat:'Unisex · Spicy Oriental',ac:'#c04040',insp:'Inspired by <strong>Nishane Safran Colognise</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/03/SAFRAN-RUSH-300x300.jpeg',desc:'The most Indian fragrance in our collection, in the best possible way. Saffron Rush opens with bold, crimson warmth of saffron before unfurling into a complex spicy heart. It needs no occasion. It is the occasion.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,600'}],notes:[{t:'Top',v:'Saffron, Bergamot, Black Pepper'},{t:'Heart',v:'Rose, Jasmine, Patchouli'},{t:'Base',v:'Sandalwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/saffron-rush-safran-colognise-nishane/'},
+  'sailor':{name:'Sailor',cat:'Unisex · Marine Floral',ac:'#50b8d8',insp:'Inspired by <strong>Roja Oceania</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/SAILOR-300x300.jpeg',desc:'Sea air and wildflowers. Sailor captures the clean expansiveness of the ocean in a fragrance that\'s simultaneously fresh and warm. Inspired by Roja\'s Oceania, it\'s the scent of open horizons.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,650'}],notes:[{t:'Top',v:'Sea Spray, Bergamot, Citrus'},{t:'Heart',v:'Marine Accord, Jasmine, Lily'},{t:'Base',v:'Driftwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/sailor-roja-oceania-dispatch-starts-from-31-03-2026/'},
+  'smoulder':{name:'Smoulder',cat:'Men · Smoky Tobacco',ac:'#909098',insp:'Inspired by <strong>Ormonde Jayne Montabaco Intensivo</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/SMOULDER-300x300.jpeg',desc:'Dark, resinous, and intensely complex. Smoulder is a tobacco-and-wood composition of rare depth. It opens smoky and settles into a rich, balsamic drydown that lasts for days. For collectors and connoisseurs only.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,550'}],notes:[{t:'Top',v:'Smoke, Black Pepper, Bergamot'},{t:'Heart',v:'Tobacco, Leather, Cedarwood'},{t:'Base',v:'Labdanum, Musk, Amber, Vanilla'}],url:'https://ssniffnsmell.com/product/smoulder-ormonde-jayne-montabaco-intensivo/'},
+  'stellar':{name:'Stellar',cat:'Women · Floral Musky',ac:'#d4789e',insp:'Inspired by <strong>Maison Crivelli Tubéreuse Astrale</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/WhatsApp-Image-2025-05-28-at-18.37.10-300x300.png',desc:'Otherworldly tuberose — intoxicating, luminous, and completely distinctive. Stellar captures Maison Crivelli\'s Tubéreuse Astrale with all of its cosmic floral complexity. One of the most ambitious fragrances we\'ve made.',sz:[{ml:'2ml Sample',p:'₹149'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹2,499'}],notes:[{t:'Top',v:'Tuberose, Bergamot, Aldehydes'},{t:'Heart',v:'Jasmine, Ylang Ylang, Rose'},{t:'Base',v:'White Musk, Sandalwood, Vanilla'}],url:'https://ssniffnsmell.com/product/stellar-maison-crivelli-tubereuse-astrale-dispatch-starts-from-31-03-2026/'},
+  'stud':{name:'Stud',cat:'Men · Oriental Amber',ac:'#d4b870',insp:'Inspired by <strong>D&G The One EDP</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/stud-300x300.jpg',desc:'Classic masculinity in the most accessible price point we offer. Stud captures the warm, amber oriental of D&G The One — tobacco, amber, and ginger in a composition that\'s endlessly wearable.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹200'},{ml:'50ml',p:'₹300'}],notes:[{t:'Top',v:'Grapefruit, Basil, Cardamom'},{t:'Heart',v:'Ginger, Orange Blossom, Tobacco'},{t:'Base',v:'Amber, Cedarwood, Musk'}],url:'https://ssniffnsmell.com/product/stud-dg-the-one-edp/'},
+  'sultan':{name:'Sultan',cat:'Men · Oriental Floral',ac:'#7060d0',insp:'Inspired by <strong>Thameen London Royal Sapphire</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/sultan-300x300.jpg',desc:'Regal. Unhurried. Sultan is the fragrance equivalent of entering a room and having it fall silent. Inspired by Thameen\'s Royal Sapphire — cool florals layered over precious woods. For when your presence needs to be felt.',sz:[{ml:'2ml Sample',p:'₹400'},{ml:'10ml',p:'₹600'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Bergamot, Mandarin, Pink Pepper'},{t:'Heart',v:'Rose, Iris, Violet'},{t:'Base',v:'Sandalwood, Oud, Amber, Musk'}],url:'https://ssniffnsmell.com/product/sultan-thameen-london-royal-sapphire/'},
+  'summer-tide':{name:'Summer Tide',cat:'Unisex · Aquatic Fresh',ac:'#50b8d8',insp:'Inspired by <strong>Summer Hammer</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/summertide-300x300.jpg',desc:'The feeling of the first plunge into water on a hot day. Summer Tide is clean, cool, and completely refreshing — an aquatic composition that somehow still feels complex and wearable year-round.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹400'},{ml:'50ml',p:'₹1,500'}],notes:[{t:'Top',v:'Sea Notes, Bergamot, Mint'},{t:'Heart',v:'Aquatic Accord, Jasmine, Vetiver'},{t:'Base',v:'Driftwood, Musk, Amber'}],url:'https://ssniffnsmell.com/product/summer-tide-summer-hammer/'},
+  'tan':{name:'Tan',cat:'Men · Leather Suede',ac:'#8b5e3c',insp:'Inspired by <strong>Tom Ford Tuscan Leather</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/TAN-300x300.jpeg',desc:'New leather and summer heat. Tan is a bold leather composition — warm, sensual, and undeniably masculine. Inspired by Tom Ford\'s Tuscan Leather, it\'s a polarizing scent that never leaves the room unnoticed.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Raspberry, Saffron, Thyme'},{t:'Heart',v:'Leather, Jasmine, Black Pepper'},{t:'Base',v:'Suede, Amber, White Musk'}],url:'https://ssniffnsmell.com/product/tan-tom-ford-tuscan-leather/'},
+  'tros':{name:'Tros',cat:'Men · Woody Spicy',ac:'#e87a3a',insp:'Inspired by <strong>Bvlgari Tygar</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/tros-300x300.jpg',desc:'Wild and untamed. Tros is a bold woody-spicy fragrance with a roar to it — opening sharp and spicy before revealing a warm, resinous heart. Inspired by Bvlgari\'s fierce Tygar.',sz:[{ml:'2ml Sample',p:'₹600'},{ml:'10ml',p:'₹800'},{ml:'50ml',p:'₹1,999'}],notes:[{t:'Top',v:'Black Pepper, Bergamot, Cardamom'},{t:'Heart',v:'Leather, Vetiver, Geranium'},{t:'Base',v:'Cedarwood, Amber, Musk'}],url:'https://ssniffnsmell.com/product/tros-bvlgari-tygar-dispatch-starts-from-31-03-2026/'},
+  'two-shades':{name:'Two Shades',cat:'Unisex · Oud Amber',ac:'#a07850',insp:'Inspired by <strong>Louis Vuitton Ombre Nomade</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/01/TWO-SHADE-300x300.jpeg',desc:'Two worlds in one bottle. Two Shades captures the nomadic luxury of LV Ombre Nomade — a rich oud and amber composition that shifts from bold to intimate on the skin. This is what true luxury fragrance feels like.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Bergamot, Pink Pepper, Saffron'},{t:'Heart',v:'Oud, Rose, Leather'},{t:'Base',v:'Amber, Musk, Sandalwood'}],url:'https://ssniffnsmell.com/product/two-shades-lv-ombre-nomade/'},
+  'vanilla-high':{name:'Vanilla High',cat:'Unisex · Warm Gourmand',ac:'#d4b870',insp:'Inspired by <strong>Goldfield & Banks Ingenious Ginger</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/vanilla_high-300x300.jpg',desc:'The most comforting fragrance we make. Vanilla High opens with a burst of ginger spice that warms into a rich vanilla heart — complex, cozy, and deeply satisfying. The perfect cold-weather scent.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Ginger, Bergamot, Pink Pepper'},{t:'Heart',v:'Vanilla, Jasmine, Sandalwood'},{t:'Base',v:'Amber, Musk, Tonka Bean'}],url:'https://ssniffnsmell.com/product/vanilla-high-goldfield-banks-ingenious-ginger/'},
+  'velour':{name:'Velour',cat:'Men · Woody Aromatic',ac:'#50b8d8',insp:'Inspired by <strong>Bleu de Chanel L\'Exclusif</strong>',img:'https://ssniffnsmell.com/wp-content/uploads/2026/02/VELOUR-300x300.jpeg',desc:'The most wearable fragrance in our collection. Velour is a smooth, sophisticated woody aromatic — clean, masculine, and endlessly versatile. Inspired by Bleu de Chanel\'s L\'Exclusif edition, it\'s the fragrance for every day and every occasion.',sz:[{ml:'2ml Sample',p:'₹99'},{ml:'10ml',p:'₹450'},{ml:'50ml',p:'₹1,700'}],notes:[{t:'Top',v:'Grapefruit, Bergamot, Peppermint'},{t:'Heart',v:'Labdanum, Jasmine, Iso E Super'},{t:'Base',v:'Sandalwood, Patchouli, Vetiver'}],url:'https://ssniffnsmell.com/product/velour-blue-de-chanel-lexclusif/'}
+};
+
+function openDetail(id){
+  const p=PD[id];if(!p)return;
+  document.getElementById('dn').textContent=p.name;
+  document.getElementById('dc').textContent=p.cat;
+  document.getElementById('dins').innerHTML=p.insp;
+  document.getElementById('di').src=p.img;
+  document.getElementById('di').alt=p.name;
+  document.getElementById('dd').textContent=p.desc;
+  document.getElementById('dbuy').href=p.url;
+  document.getElementById('dg').style.background=`radial-gradient(ellipse,color-mix(in srgb,${p.ac} 28%,transparent),transparent 72%)`;
+  document.getElementById('ds').innerHTML=p.sz.map((s,i)=>`<button class="sz ${i===0?'on':''}" onclick="selSz(this)">${s.ml}<span class="szp">${s.p}</span></button>`).join('');
+  document.getElementById('dn2').innerHTML=p.notes.map(n=>`<div class="ni"><span class="nit">${n.t} Notes</span><p class="niv">${n.v}</p></div>`).join('');
+  document.getElementById('dp').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('dp').scrollTop=0;
+}
+function closeDetail(){document.getElementById('dp').classList.remove('open');document.body.style.overflow='';}
+function selSz(b){document.querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
+</script>
+</body>
+</html>

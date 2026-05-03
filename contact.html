@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Ssniff N Smell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:90px 64px;}
+.contact-info-card{background:var(--smoke);padding:50px 44px;border-left:2px solid var(--gold);margin-bottom:20px;transition:background .3s;}
+.contact-info-card:hover{background:var(--ash);}
+.cic-icon{font-size:1.4rem;margin-bottom:14px;display:block;}
+.cic-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;margin-bottom:10px;}
+.cic-content{font-size:.72rem;line-height:1.9;color:var(--dust);letter-spacing:.04em;}
+.cic-content a{color:var(--gold);text-decoration:none;}
+.cic-content a:hover{text-decoration:underline;}
+.contact-form-wrap{}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-bottom:8px;}
+.form-sub{font-size:.72rem;color:var(--dust);letter-spacing:.04em;margin-bottom:40px;line-height:1.8;}
+.fgroup{margin-bottom:20px;}
+.fgroup label{display:block;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dust);margin-bottom:8px;}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--smoke);border:1px solid rgba(201,146,43,.15);color:var(--parch);font-family:'Montserrat',sans-serif;font-size:.68rem;letter-spacing:.05em;padding:13px 16px;outline:none;transition:border .3s;resize:none;cursor:text;}
+.fgroup input:focus,.fgroup textarea:focus,.fgroup select:focus{border-color:rgba(201,146,43,.4);}
+.fgroup input::placeholder,.fgroup textarea::placeholder{color:var(--dust);}
+.fgroup select{cursor:pointer;appearance:none;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.submit-btn{width:100%;padding:15px;background:var(--gold);border:none;color:var(--ink);font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:none;transition:all .3s;margin-top:8px;}
+.submit-btn:hover{background:var(--goldl);}
+.support-types{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,146,43,.1);padding:0 64px;margin-bottom:80px;}
+.st-item{background:var(--smoke);padding:32px 28px;transition:background .3s;}
+.st-item:hover{background:var(--ash);}
+.st-icon{font-size:1.2rem;margin-bottom:12px;display:block;}
+.st-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;margin-bottom:6px;color:var(--parch);}
+.st-desc{font-size:.62rem;color:var(--dust);letter-spacing:.04em;line-height:1.7;}
+.form-success{display:none;padding:20px 24px;background:rgba(201,146,43,.08);border:1px solid rgba(201,146,43,.3);color:var(--gold);font-size:.7rem;letter-spacing:.08em;margin-top:16px;text-align:center;}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:50px;padding:60px 24px;}.support-types{grid-template-columns:1fr;padding:0 24px;margin-bottom:60px;}.frow{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cring"></div><div id="sp"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nlogo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="nlogo-text">Ssniff <em>N</em> Smell</span></a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="discovery.html">Discovery</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <a href="shop.html" class="nshop">Shop Now</a>
+</nav>
+
+<div class="page-hero rv">
+  <div class="page-hero-glow"></div>
+  <div class="ph-label">Get In Touch</div>
+  <h1 class="ph-title">We're Here to <em>Help.</em></h1>
+  <p class="ph-sub">Questions about a fragrance, an order, or just want a recommendation? We're always happy to talk scent.</p>
+  <div class="page-hero-line"></div>
+</div>
+
+<div class="support-types stg rv">
+  <div class="st-item"><span class="st-icon">🧴</span><div class="st-title">Product Recommendations</div><p class="st-desc">Not sure which fragrance is yours? Tell us your mood, the occasion, what you already love — we'll find your match.</p></div>
+  <div class="st-item"><span class="st-icon">📦</span><div class="st-title">Orders & Delivery</div><p class="st-desc">Track your order, ask about delivery timelines, or get help with an exchange. We're on it.</p></div>
+  <div class="st-item"><span class="st-icon">🤝</span><div class="st-title">Partnerships & Bulk</div><p class="st-desc">Gifting enquiries, franchise opportunities, or bulk orders — reach out and let's talk.</p></div>
+</div>
+
+<div class="contact-layout">
+  <div class="rvl">
+    <div class="slbl">Reach Us</div>
+    <h2 class="stit" style="margin-bottom:36px">Contact <em>Information</em></h2>
+    <div class="contact-info-card">
+      <span class="cic-icon">📍</span>
+      <div class="cic-title">Our Locations</div>
+      <div class="cic-content">
+        <strong>Manewada Ring Road,</strong> Nagpur, Maharashtra, India<br>
+        <strong>College Street,</strong> Kolkata, West Bengal, India
+      </div>
+    </div>
+    <div class="contact-info-card">
+      <span class="cic-icon">📱</span>
+      <div class="cic-title">Phone & WhatsApp</div>
+      <div class="cic-content"><a href="https://wa.me/919561190267" target="_blank">+91 95611 90267</a><br>Chat with us directly on WhatsApp — fastest response.</div>
+    </div>
+    <div class="contact-info-card">
+      <span class="cic-icon">📧</span>
+      <div class="cic-title">Email</div>
+      <div class="cic-content"><a href="mailto:info@ssniffnsmell.com">info@ssniffnsmell.com</a><br>For order enquiries, collaborations, and general questions.</div>
+    </div>
+    <a href="https://wa.me/919561190267" target="_blank" class="btn-gold" style="margin-top:12px;display:inline-block">💬 Chat on WhatsApp</a>
+  </div>
+  <div class="rvr">
+    <div class="form-title">Write to Us</div>
+    <p class="form-sub">Every message helps us serve you better. We respond within 24 hours — usually much faster.</p>
+    <form id="contactForm" onsubmit="submitForm(event)">
+      <div class="frow">
+        <div class="fgroup"><label>Your Name</label><input type="text" placeholder="Rohit Sharma" required></div>
+        <div class="fgroup"><label>Email Address</label><input type="email" placeholder="rohit@email.com" required></div>
+      </div>
+      <div class="fgroup"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91 98765 43210"></div>
+      <div class="fgroup">
+        <label>Subject</label>
+        <select>
+          <option>Product Recommendation</option>
+          <option>Order Enquiry</option>
+          <option>Bulk / Gifting</option>
+          <option>Franchise / Partnership</option>
+          <option>General Question</option>
+        </select>
+      </div>
+      <div class="fgroup"><label>Your Message</label><textarea rows="5" placeholder="Tell us what's on your mind..." required></textarea></div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+    <div class="form-success" id="formSuccess">✓ Message sent! We'll get back to you within 24 hours.</div>
+  </div>
+</div>
+
+<div class="svcbar rv">
+  <div class="svcitem"><div class="svcico">⚡</div><div><div class="svctl">Fastest Response</div><p class="svcsb">WhatsApp — usually within minutes</p></div></div>
+  <div class="svcitem"><div class="svcico">📦</div><div><div class="svctl">Track Your Order</div><p class="svcsb"><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Status →</a></p></div></div>
+  <div class="svcitem"><div class="svcico">↩️</div><div><div class="svctl">Returns & Exchange</div><p class="svcsb"><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Read Our Policy →</a></p></div></div>
+</div>
+
+<footer>
+  <div class="ftop">
+    <div><div class="fbrand-logo"><img src="https://ssniffnsmell.com/wp-content/uploads/2026/01/site_icon.svg" alt="SNS" onerror="this.style.display='none'"><span class="fbrand-name">Ssniff <em>N</em> Smell</span></div><p class="fbrand-desc">Handcrafted niche fragrance dupes from India. Zero chemicals. Zero compromise.</p><a href="https://wa.me/919561190267" target="_blank" class="fwa">💬 WhatsApp</a></div>
+    <div><div class="fcoltit">Navigate</div><ul class="fls"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="discovery.html">Discovery Sets</a></li><li><a href="samples.html">2ml Samples</a></li><li><a href="restock.html">Restock</a></li></ul></div>
+    <div><div class="fcoltit">Customer</div><ul class="fls"><li><a href="https://ssniffnsmell.com/my-account/" target="_blank">My Account</a></li><li><a href="https://ssniffnsmell.com/track-order/" target="_blank">Track Order</a></li><li><a href="https://ssniffnsmell.com/wishlist/" target="_blank">Wishlist</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="fcoltit">Policies</div><ul class="fls"><li><a href="https://ssniffnsmell.com/privacy-policy/" target="_blank">Privacy Policy</a></li><li><a href="https://ssniffnsmell.com/terms-and-conditions/" target="_blank">Terms</a></li><li><a href="https://ssniffnsmell.com/refund-and-return/" target="_blank">Refunds</a></li><li><a href="https://ssniffnsmell.com/shipping/" target="_blank">Shipping</a></li></ul></div>
+  </div>
+  <div class="fbot"><p class="fcp">© 2026 Ssniff N Smell. All Rights Reserved.</p><p class="ftag">For noses that know.</p></div>
+</footer>
+
+
+<!-- Detail Panel -->
+<div class="dpanel" id="detailPanel">
+  <button class="dback" onclick="closeDetail()"><span>←</span> Back</button>
+  <div class="dlay">
+    <div class="diz"><div class="diw"><div class="dglow" id="d-glow"></div><img id="d-img" src="" alt=""></div></div>
+    <div>
+      <div class="dcat" id="d-cat"></div><h1 class="dnm" id="d-name"></h1>
+      <p class="dins" id="d-insp"></p><p class="ddesc" id="d-desc"></p>
+      <span class="szlbl">Select Size</span><div class="szs" id="d-sizes"></div>
+      <div class="dcta"><a id="d-buy" href="#" target="_blank" class="bbuy">Shop on Ssniff N Smell →</a><button class="bwl">&#9825;</button></div>
+      <div class="dnotes"><h3 class="dntl">Scent Profile</h3><div class="ngrid" id="d-notes"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="products.js"></script><script src="shared.js"></script>
+<script>
+function submitForm(e){
+  e.preventDefault();
+  document.getElementById('contactForm').style.opacity='.4';
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('formSuccess').style.display='block';
+  },800);
+}
+</script>
+</body>
+</html>
